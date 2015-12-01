@@ -1,0 +1,7 @@
+{
+  "extends": "eslint-config-egg",
+  "rules": {
+    "comma-dangle": 0,
+    "eol-last": 0
+  }
+}
