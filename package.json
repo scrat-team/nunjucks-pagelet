@@ -6,7 +6,6 @@
     "nunjucks": "~2.2.0"
   },
   "devDependencies": {
-    "ali-contributors": "*",
     "autod": "*",
     "beautify-benchmark": "^0.2.4",
     "benchmark": "^1.0.0",
@@ -37,7 +36,6 @@
     "test-local": "TEST_REPORTER=spec NODE_ENV=test ./node_modules/.bin/_mocha --recursive test --bail",
     "cov": "TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -u exports --recursive test --bail",
     "test-travis": "npm run lint && TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- -u exports --recursive test --bail",
-    "contributors": "ali-contributors",
     "ci": "npm run lint && npm run cov"
   },
   "homepage": "https://github.com/scrat-team/nunjucks-pagelet",
@@ -48,5 +46,5 @@
   "engines": {
     "node": ">= 4.0.0"
   },
-  "egg": {}
+  "license": "MIT"
 }
