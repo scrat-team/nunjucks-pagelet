@@ -91,9 +91,9 @@ describe('test/lib/BaseTag.test.js', function() {
         super('child');
       }
 
-      render(context, attrs, content) {
-        content = context.model.getData();
-        return super.render(context, attrs, content);
+      render(context, attrs, fragment) {
+        fragment = context.model.getData();
+        return super.render(context, attrs, fragment);
       }
     }
 
@@ -102,9 +102,9 @@ describe('test/lib/BaseTag.test.js', function() {
         super('next');
       }
 
-      render(context, attrs, content) {
-        content = context.model ? context.model.getData() : 'undefined';
-        return super.render(context, attrs, content);
+      render(context, attrs, fragment) {
+        fragment = context.model ? context.model.getData() : 'undefined';
+        return super.render(context, attrs, fragment);
       }
     }
 
