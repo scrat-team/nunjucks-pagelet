@@ -1,6 +1,5 @@
 'use strict';
 
-const nunjucks = require('nunjucks');
 const expect = require('expect.js');
 const path = require('path');
 // const sinon = require('sinon');
