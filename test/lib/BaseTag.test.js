@@ -108,6 +108,8 @@ describe('test/lib/BaseTag.test.js', function() {
       }
     }
 
+    env.addGlobal('test', 'aaa');
+
     mount(ParentTag, ChildTag, NextTag);
 
     const tpl = '{% parent %}{% child %}{% endchild %}{% endparent %}{% next %}{% endnext %}';
