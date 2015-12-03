@@ -1,9 +1,6 @@
 'use strict';
 
 const expect = require('expect.js');
-const path = require('path');
-// const sinon = require('sinon');
-
 const util = require('./util');
 
 describe('test/index.test.js', function() {

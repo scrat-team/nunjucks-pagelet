@@ -152,7 +152,7 @@ describe('test/lib/Tag.test.js', function() {
     const env = nunjucks.configure('./test/fixtures/include');
     function TestTag() {
       this.tags = ['test'];
-      this.parse = function(parser, nodes, lexer) {
+      this.parse = function(parser, nodes) {
         // get the tag token
         let token = parser.nextToken();
 

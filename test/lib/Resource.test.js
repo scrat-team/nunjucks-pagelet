@@ -1,7 +1,6 @@
 'use strict';
 
 const expect = require('expect.js');
-const path = require('path');
 const fs = require('fs');
 const sinon = require('sinon');
 
@@ -10,7 +9,7 @@ const util = require('../util');
 const spy = sinon.spy(fs, 'readFileSync');
 
 describe('test/Resource.test.js', function() {
-  let app, env, target, Resource;
+  let app, target, Resource;
 
   before(function() {
     app = util('general');

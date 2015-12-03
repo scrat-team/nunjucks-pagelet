@@ -1,9 +1,6 @@
 'use strict';
 
-const nunjucks = require('nunjucks');
 const expect = require('expect.js');
-// const sinon = require('sinon');
-
 const util = require('../../util');
 
 describe('test/lib/tags/head.test.js', function() {

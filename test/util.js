@@ -5,7 +5,7 @@ const fs = require('fs');
 const nunjucks = require('nunjucks');
 const framework = require('../');
 
-module.exports = function(targetDir, opt){
+module.exports = function(targetDir, opt) {
   const baseDir = path.join('./test/fixtures/', targetDir);
   const env = nunjucks.configure(baseDir);
   const mapFile = path.join(baseDir, 'map.json');

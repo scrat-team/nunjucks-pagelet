@@ -4,7 +4,7 @@ const delegate = require('delegates');
 const Tag = require('./lib/Tag');
 const Resource = require('./lib/Resource');
 // const TagNames = ['body', 'head', 'html', 'pagelet', 'require', 'script', 'uri', 'title', 'datalet', 'ATF'];
-const TagNames = ['body', 'head', 'html', 'require', 'script', 'uri', 'title', 'ATF'];
+const TagNames = ['body', 'head', 'html', 'pagelet', 'require', 'script', 'uri', 'title', 'ATF'];
 
 module.exports = function(opt) {
   Resource.configure(opt);
