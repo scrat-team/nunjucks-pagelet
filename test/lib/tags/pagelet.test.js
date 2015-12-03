@@ -4,7 +4,7 @@ const expect = require('expect.js');
 const util = require('../../util');
 
 describe('test/lib/tags/pagelet.test.js', function() {
-  let app, env;
+  let app, env, tpl;
 
   // const locals = {title: 'this is title', href: 'http://t.cn', deep: {foo: 'foo'}, override: {foo: 'override'}};
 
@@ -16,7 +16,7 @@ describe('test/lib/tags/pagelet.test.js', function() {
   after(util.restore);
 
   it('should render pagelet tag attribute ', function() {
-    let tpl = '{% html %}{% pagelet $id="main" %}hello{% endpagelet %}{% endhtml %}';
+    tpl = '{% html %}{% pagelet $id="main" %}hello{% endpagelet %}{% endhtml %}';
     expect(env.renderString(tpl, {})).to.equal('<html><div data-pagelet="main">hello</div></html>');
 
     tpl = '{% html %}{% pagelet $id="main" %}hello{% pagelet $id="sub" %}world{% endpagelet %}{% endpagelet %}{% endhtml %}';
@@ -42,6 +42,37 @@ describe('test/lib/tags/pagelet.test.js', function() {
 
     tpl = '{% html %}{% pagelet $id="main", $tag=\'none\', class="a" %}hello{% endpagelet %}{% endhtml %}';
     expect(env.renderString(tpl, {})).to.equal('<html><!-- pagelet[main] start -->hello<!-- pagelet[main] end --></html>');
+  });
+
+  it('use pagelet', function() {
+    tpl = '{% html %}{% pagelet $id="main" %}hello{% endpagelet %}{% endhtml %}';
+    expect(env.renderString(tpl, {_pagelets: 'main'})).to.equal('{"html":{"main":"hello"},"data":{},"js":[],"css":[],"title":"","script":[],"hash":"0000000"}');
+
+    tpl = '{% html %}{% pagelet $id="main" %}hello{% endpagelet %}{% endhtml %}';
+    expect(env.renderString(tpl, {_pagelets: 'x'})).to.equal('{"html":{"x":""},"data":{},"js":[],"css":[],"title":"","script":[],"hash":"0000000"}');
+
+    tpl = '{% html %}{% pagelet $id="main" %}hello{% pagelet $id="foo" %}world{% endpagelet %}ok{% endpagelet %}{% endhtml %}';
+    expect(env.renderString(tpl, {_pagelets: 'main'})).to.equal('{"html":{"main":"hello<div data-pagelet=\\"main.foo\\">world</div>ok"},"data":{},"js":[],"css":[],"title":"","script":[],"hash":"0000000"}');
+
+    tpl = '{% html %}{% pagelet $id="main" %}hello{% pagelet $id="foo" %}world{% endpagelet %}ok{% endpagelet %}{% endhtml %}';
+    expect(env.renderString(tpl, {_pagelets: 'main.foo'})).to.equal('{"html":{"main.foo":"world"},"data":{},"js":[],"css":[],"title":"","script":[],"hash":"0000000"}');
+
+    tpl = '{% html %}{% pagelet $id="foo" %}foo{% endpagelet %}{% pagelet $id="bar" %}bar{% endpagelet %}{% endhtml %}';
+    expect(env.renderString(tpl, {_pagelets: 'foo,bar'})).to.equal('{"html":{"foo":"foo","bar":"bar"},"data":{},"js":[],"css":[],"title":"","script":[],"hash":"0000000"}');
+
+    tpl = '{% html %}{% pagelet $id="foo" %}foo{% endpagelet %}{% pagelet $id="bar" %}bar{% endpagelet %}{% endhtml %}';
+    expect(env.renderString(tpl, {_pagelets: 'foo,   bar'})).to.equal('{"html":{"foo":"foo","bar":"bar"},"data":{},"js":[],"css":[],"title":"","script":[],"hash":"0000000"}');
+
+    tpl = '{% html %}{% pagelet $id="foo" %}foo{% endpagelet %}{% pagelet $id="bar" %}bar{% endpagelet %}{% endhtml %}';
+    expect(env.renderString(tpl, {_pagelets: 'foo,x'})).to.equal('{"html":{"foo":"foo","x":""},"data":{},"js":[],"css":[],"title":"","script":[],"hash":"0000000"}');
+  });
+
+  it('scripts', function() {
+    tpl = '{% html %}{% pagelet $id="main" %}hello{% endpagelet %}{% script %}world{% endscript %}{% endhtml %}';
+    expect(env.renderString(tpl, {_pagelets: 'main'})).to.equal('{"html":{"main":"hello"},"data":{},"js":[],"css":[],"title":"","script":[],"hash":"0000000"}');
+
+    tpl = '{% html %}{% pagelet $id="main" %}hello{% script %}world{% endscript %}{% endpagelet %}{% endhtml %}';
+    expect(env.renderString(tpl, {_pagelets: 'main'})).to.equal('{"html":{"main":"hello"},"data":{},"js":[],"css":[],"title":"","script":["world"],"hash":"0000000"}');
   });
 });
 
