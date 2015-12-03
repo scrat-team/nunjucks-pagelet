@@ -6,14 +6,18 @@ const nunjucks = require('nunjucks');
 const framework = require('../');
 
 module.exports = function(targetDir, opt) {
-  const baseDir = path.join('./test/fixtures/', targetDir);
+  const baseDir = path.join(process.cwd(), './test/fixtures/', targetDir);
   const env = nunjucks.configure(baseDir);
   const mapFile = path.join(baseDir, 'map.json');
   const mapData = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
-  opt = opt || {};
-  opt.file = opt.file || mapFile;
-  const target = framework(opt);
-  target.register(env);
+
+  framework.configure(Object.assign({
+    file: mapFile
+  }, opt));
+
+  framework.tags.forEach((tag) => {
+    env.addExtension(tag.tagName, tag);
+  });
 
   function mount(Tags) {
     Tags = Array.prototype.slice.call(arguments);
@@ -28,7 +32,7 @@ module.exports = function(targetDir, opt) {
     mapFile: mapFile,
     mapData: mapData,
     env: env,
-    target: target,
+    framework: framework,
     mount: mount
   };
 };

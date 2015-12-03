@@ -4,13 +4,13 @@ const expect = require('expect.js');
 const util = require('../../util');
 
 describe('test/lib/tags/pagelet.test.js', function() {
-  let app, env, tpl;
+  let mm, env, tpl;
 
   // const locals = {title: 'this is title', href: 'http://t.cn', deep: {foo: 'foo'}, override: {foo: 'override'}};
 
   before(function() {
-    app = util('general');
-    env = app.env;
+    mm = util('general');
+    env = mm.env;
   });
 
   after(util.restore);

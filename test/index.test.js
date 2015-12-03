@@ -4,18 +4,18 @@ const expect = require('expect.js');
 const util = require('./util');
 
 describe('test/index.test.js', function() {
-  let app, target;
+  let app, framework;
 
   before(function() {
     app = util('general');
-    target = app.target;
+    framework = app.framework;
   });
 
   after(util.restore);
 
   it('should exports', function() {
-    expect(target.Tag).to.not.be(undefined);
-    expect(target.Resource).to.not.be(undefined);
-    expect(target.manifest).to.eql(target.Resource.manifest);
+    expect(framework.Tag).to.not.be(undefined);
+    expect(framework.Resource).to.not.be(undefined);
+    expect(framework.manifest).to.eql(framework.Resource.manifest);
   });
 });

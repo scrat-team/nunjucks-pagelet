@@ -4,11 +4,11 @@ const expect = require('expect.js');
 const util = require('../../util');
 
 describe('test/lib/tags/html.test.js', function() {
-  let app, env;
+  let mm, env;
 
   before(function() {
-    app = util('general');
-    env = app.env;
+    mm = util('general');
+    env = mm.env;
   });
 
   after(util.restore);

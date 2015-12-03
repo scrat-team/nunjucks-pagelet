@@ -9,12 +9,12 @@ const util = require('../util');
 const spy = sinon.spy(fs, 'readFileSync');
 
 describe('test/Resource.test.js', function() {
-  let app, target, Resource;
+  let app, framework, Resource;
 
   before(function() {
     app = util('general');
-    target = app.target;
-    Resource = target.Resource;
+    framework = app.framework;
+    Resource = framework.Resource;
   });
 
   after(util.restore);
