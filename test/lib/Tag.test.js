@@ -15,16 +15,26 @@ function mount(Tags) {
   });
 }
 
-describe('test/lib/BaseTag.test.js', function() {
+describe('test/lib/Tag.test.js', function() {
 
-  const locals = {attr1: 'some attr', content: 'this is content'};
+  const locals = {attr1: 'some attr', attr2: 'a2', content: 'this is content'};
 
   it('should render custom tag', function() {
     const tag = new Tag('custom');
     env.addExtension('custom', tag);
-    const tpl = '{% custom "data-attr1"=attr1, attr2="a2", "attr1"%}{{ content }}{% endcustom %}';
-    const html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom data-attr1="some attr" attr2="a2">this is content</custom>');
+    let tpl = '{% custom "data-attr1"=attr1, class=["a1", attr2, "a1"], "readonly", attr2, undefinedVar, undefinedValue=aaa, ["test", attr2], {a:"test"}%}{{ content }}{% endcustom %}';
+    let html = env.renderString(tpl, locals);
+    expect(html).to.equal('<custom readonly a2 test a="test" data-attr1="some attr" class="a1 a2" undefinedValue="">this is content</custom>');
+
+    // without attrs
+    tpl = '{% custom %}{{ content }}{% endcustom %}';
+    html = env.renderString(tpl, locals);
+    expect(html).to.equal('<custom>this is content</custom>');
+
+    // without body
+    tpl = '{% custom "data-attr1"=attr1, attr2="a2", "attr1"%}{% endcustom %}';
+    html = env.renderString(tpl, locals);
+    expect(html).to.equal('<custom attr1 data-attr1="some attr" attr2="a2"></custom>');
   });
 
   it('should support not-block tag', function() {
@@ -40,6 +50,7 @@ describe('test/lib/BaseTag.test.js', function() {
     let html = env.renderString(tpl, locals);
     expect(html).to.equal('<div data-attr1="some attr" attr2="a2"></div>this is content');
 
+    // without attrs
     tpl = '{% single %}{{ content }}';
     html = env.renderString(tpl, locals);
     expect(html).to.equal('<div></div>this is content');
@@ -77,12 +88,11 @@ describe('test/lib/BaseTag.test.js', function() {
         super('parent');
       }
 
-      beforeRender(context) {
+      render(context, attrs, body, noSafe) {  // eslint-disable-line no-unused-vars
         context.model = new Model('abc');
-      }
-
-      afterRender(context) {
+        const html = super.render.apply(this, arguments);
         delete context.model;
+        return html;
       }
     }
 
@@ -107,8 +117,6 @@ describe('test/lib/BaseTag.test.js', function() {
         return super.render(context, attrs, fragment);
       }
     }
-
-    env.addGlobal('test', 'aaa');
 
     mount(ParentTag, ChildTag, NextTag);
 

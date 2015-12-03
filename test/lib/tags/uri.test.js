@@ -3,7 +3,6 @@
 const nunjucks = require('nunjucks');
 const expect = require('expect.js');
 const path = require('path');
-const fs = require('fs');
 // const sinon = require('sinon');
 
 const env = nunjucks.configure('test');
@@ -16,7 +15,7 @@ const framework = require('../../../');
 const baseDir = path.join('./test/fixtures/general');
 const mapFile = path.join(baseDir, 'map.json');
 
-describe.only('test/lib/tags/uri.test.js', function() {
+describe('test/lib/tags/uri.test.js', function() {
   let target;
 
   afterEach(function() {
