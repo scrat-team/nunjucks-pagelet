@@ -5,30 +5,37 @@ const path = require('path');
 const fs = require('fs');
 const sinon = require('sinon');
 
-const Resource = require('../../lib/Resource');
-const baseDir = path.join('./test/fixtures/general');
-const mapFile = path.join(baseDir, 'map.json');
-const mapData = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
+const util = require('../util');
+
 const spy = sinon.spy(fs, 'readFileSync');
 
 describe('test/Resource.test.js', function() {
+  let app, env, target, Resource;
+
+  before(function() {
+    app = util('general');
+    target = app.target;
+    Resource = target.Resource;
+  });
+
+  after(util.restore);
+
   afterEach(function() {
     spy.reset();
-    Resource.reset();
   });
 
   it('should read map', function() {
     Resource.configure({
       cache: true,
-      file: mapFile
+      file: app.mapFile
     });
-    expect(Resource.manifest).to.eql(mapData);
+    expect(Resource.manifest).to.eql(app.mapData);
   });
 
   it('should cache map', function() {
     Resource.configure({
       cache: true,
-      file: mapFile
+      file: app.mapFile
     });
     Resource.manifest;
     Resource.manifest;
@@ -38,7 +45,7 @@ describe('test/Resource.test.js', function() {
 
   it('should not cache map', function() {
     Resource.configure({
-      file: mapFile
+      file: app.mapFile
     });
     Resource.manifest;
     Resource.manifest;

@@ -4,20 +4,21 @@ const nunjucks = require('nunjucks');
 const expect = require('expect.js');
 // const sinon = require('sinon');
 
-const env = nunjucks.configure('test');
-const Tag = require('../../lib/Tag');
-
-function mount(Tags) {
-  Tags = Array.prototype.slice.call(arguments);
-  Tags.forEach((Tag) => {
-    let tag = new Tag();
-    env.addExtension(tag.tagName, tag);
-  });
-}
+const util = require('../util');
 
 describe('test/lib/Tag.test.js', function() {
+  let app, env, target, Tag;
 
-  const locals = {attr1: 'some attr', attr2: 'a2', content: 'this is content', bool: true};
+  before(function() {
+    app = util('general');
+    env = app.env;
+    target = app.target;
+    Tag = target.Tag;
+  });
+
+  after(util.restore);
+
+  const locals = {attr1: 'some attr', attr2: 'a2', content: 'this is content', bool: true, deep: {foo: 'foo'}};
 
   it('should output attrs', function() {
     const tag = new Tag('custom');
@@ -47,9 +48,9 @@ describe('test/lib/Tag.test.js', function() {
   it('should render custom tag', function() {
     const tag = new Tag('custom');
     env.addExtension('custom', tag);
-    let tpl = '{% custom "data-attr1"=attr1, class=["a1", attr2, "a1"], style={a: true, b: false, c: bool}, "readonly", attr2, undefinedVar, undefinedValue=aaa, ["test", attr2], {a:"test"}%}{{ content }}{% endcustom %}';
+    let tpl = '{% custom "data-attr1"=attr1, class=["a1", attr2, "a1", deep.foo], style={a: true, b: false, c: bool}, "readonly", attr2, undefinedVar, undefinedValue=aaa, ["test", attr2], {a:"test"}%}{{ content }}{% endcustom %}';
     let html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom readonly a2 test a="test" data-attr1="some attr" class="a1 a2" style="a c" undefinedValue="">this is content</custom>');
+    expect(html).to.equal('<custom readonly a2 test a="test" data-attr1="some attr" class="a1 a2 foo" style="a c" undefinedValue="">this is content</custom>');
 
     // without attrs
     tpl = '{% custom %}{{ content }}{% endcustom %}';
@@ -69,7 +70,7 @@ describe('test/lib/Tag.test.js', function() {
         this.outputTag = 'div';
       }
     }
-    mount(SingleTag);
+    app.mount(SingleTag);
 
     let tpl = '{% single "data-attr1"=attr1, attr2="a2" %}{{ content }}';
     let html = env.renderString(tpl, locals);
@@ -87,11 +88,8 @@ describe('test/lib/Tag.test.js', function() {
         super('sub');
         this.outputTag = 'div';
       }
-      test() {
-        return 'a';
-      }
     }
-    mount(SubTag);
+    app.mount(SubTag);
 
     const tpl = '{% sub "data-attr1"=attr1, attr2="a2"%}{{ content }}{% endsub %}';
     const html = env.renderString(tpl, locals);
@@ -143,10 +141,36 @@ describe('test/lib/Tag.test.js', function() {
       }
     }
 
-    mount(ParentTag, ChildTag, NextTag);
+    app.mount(ParentTag, ChildTag, NextTag);
 
     const tpl = '{% parent %}{% child %}{% endchild %}{% endparent %}{% next %}{% endnext %}';
     const html = env.renderString(tpl, locals);
     expect(html).to.equal('<parent><child>abc</child></parent><next>undefined</next>');
+  });
+
+  it('should include', function() {
+    const env = nunjucks.configure('./test/fixtures/include');
+    function TestTag() {
+      this.tags = ['test'];
+      this.parse = function(parser, nodes, lexer) {
+        // get the tag token
+        let token = parser.nextToken();
+
+        // parse the args and move after the block end. passing true
+        // as the second arg is required if there are no parentheses
+        let args = parser.parseSignature(null, true);
+        parser.advanceAfterBlockEnd(token.value);
+        // See above for notes about CallExtension
+        return new nodes.CallExtension(this, 'run', args);
+      };
+      this.run = function(context, args) {
+        return new nunjucks.runtime.SafeString(context.env.render(args, context.ctx));
+      };
+    }
+
+    env.addExtension('test', new TestTag());
+
+    const html = env.render('parent.tpl', {title: 'this is title', deep: {foo: 'foo'}});
+    expect(html).to.equal('this is title\nfoo');
   });
 });

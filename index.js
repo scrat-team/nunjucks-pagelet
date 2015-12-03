@@ -1,10 +1,10 @@
 'use strict';
 
 const delegate = require('delegates');
-const BaseTag = require('./lib/Tag');
+const Tag = require('./lib/Tag');
 const Resource = require('./lib/Resource');
 // const TagNames = ['body', 'head', 'html', 'pagelet', 'require', 'script', 'uri', 'title', 'datalet', 'ATF'];
-const TagNames = ['head', 'html', 'ATF'];
+const TagNames = ['body', 'head', 'html', 'require', 'script', 'uri', 'title', 'ATF'];
 
 module.exports = function(opt) {
   Resource.configure(opt);
@@ -18,7 +18,7 @@ module.exports = function(opt) {
   }
 
   const exports = {
-    BaseTag: BaseTag,
+    Tag: Tag,
     Resource: Resource,
     register: register
   };

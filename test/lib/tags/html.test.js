@@ -5,24 +5,19 @@ const expect = require('expect.js');
 const path = require('path');
 // const sinon = require('sinon');
 
-const Resource = require('../../../lib/Resource');
-const baseDir = path.join('./test/fixtures/general');
-const mapFile = path.join(baseDir, 'map.json');
-
-const env = nunjucks.configure('test');
-const Tag = require('../../../lib/tags/html');
-env.addExtension('html', new Tag());
+const util = require('../../util');
 
 describe('test/lib/tags/html.test.js', function() {
-  const locals = {attr1: 'some attr', content: 'this is content'};
+  let app, env;
 
   before(function() {
-    Resource.configure({file: mapFile});
+    app = util('general');
+    env = app.env;
   });
 
-  after(function() {
-    Resource.reset();
-  });
+  after(util.restore);
+
+  const locals = {attr1: 'some attr', content: 'this is content'};
 
   it('should render html tag', function() {
     const tpl = '{% html "data-attr1"=attr1, attr2="a2"%}{{ content }}{% endhtml %}';
