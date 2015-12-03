@@ -17,14 +17,39 @@ function mount(Tags) {
 
 describe('test/lib/Tag.test.js', function() {
 
-  const locals = {attr1: 'some attr', attr2: 'a2', content: 'this is content'};
+  const locals = {attr1: 'some attr', attr2: 'a2', content: 'this is content', bool: true};
+
+  it('should output attrs', function() {
+    const tag = new Tag('custom');
+    let attrs = [
+      'enabled',
+      'checked',
+      'checked',
+      'a',
+      undefined,
+      ['a', 'b'],
+      {
+        attr1: 'a',
+        attr2: 'b'
+      },
+      {
+        attr1: 'b',
+        attr3: 'c',
+        class: ['a', 'b'],
+        style: {a: true, b: false, c: 'test'},
+        __keywords: true
+      }
+    ];
+    let html = tag._packAttrs(attrs);
+    expect(html).to.equal('enabled checked a attr1="a" attr2="b" attr1="b" attr3="c" class="a b" style="a c"');
+  });
 
   it('should render custom tag', function() {
     const tag = new Tag('custom');
     env.addExtension('custom', tag);
-    let tpl = '{% custom "data-attr1"=attr1, class=["a1", attr2, "a1"], "readonly", attr2, undefinedVar, undefinedValue=aaa, ["test", attr2], {a:"test"}%}{{ content }}{% endcustom %}';
+    let tpl = '{% custom "data-attr1"=attr1, class=["a1", attr2, "a1"], style={a: true, b: false, c: bool}, "readonly", attr2, undefinedVar, undefinedValue=aaa, ["test", attr2], {a:"test"}%}{{ content }}{% endcustom %}';
     let html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom readonly a2 test a="test" data-attr1="some attr" class="a1 a2" undefinedValue="">this is content</custom>');
+    expect(html).to.equal('<custom readonly a2 test a="test" data-attr1="some attr" class="a1 a2" style="a c" undefinedValue="">this is content</custom>');
 
     // without attrs
     tpl = '{% custom %}{{ content }}{% endcustom %}';
