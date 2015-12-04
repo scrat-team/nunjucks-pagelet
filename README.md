@@ -36,10 +36,12 @@ const html = env.render('test.tpl', locals);
 ## 新增规则
 
 - 对`nunjucks`的自定义标签语法进行了修订:
-  - 属性分隔符可以是空格和逗号, 建议使用空格
+  - 属性分隔符增加对空格的支持, 原逗号仍保留支持, 但建议使用空格
   - `data-src` 这类的属性名, 无需双引号包裹
-  - `disabled` 这类的没有赋值的属性, 无需双引号包裹
-  - 示例: `{% body cdn="asd", class=["a", "b"], style={a: true, b: someVar} data-src="http://", disabled %}{% endbody %}`
+  - `disabled` 这类的没有赋值的属性, 无需双引号包裹, 不再支持变量
+  - 示例:
+    - `{% body cdn="asd", data-src="http://", disabled %}{% endbody %}`
+    - `{% pagelet $id="asd" class=["a", "b"] style={a: true, b: someVar} %}{% endpagelet %}`
 - swig版本传送门: [scrat-swig](https://github.com/scrat-team/scrat-swig)
 
 ## 新增模板标签
