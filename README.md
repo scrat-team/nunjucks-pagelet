@@ -5,14 +5,11 @@ scrat后端渲染组件化开发模式通过扩展 [nunjucks](http://mozilla.git
 [![NPM Version](https://img.shields.io/npm/v/nunjucks-pagelet.svg?style=flat)](https://www.npmjs.org/package/nunjucks-pagelet)
 [![Build Status](https://img.shields.io/travis/scrat-team/nunjucks-pagelet.svg?style=flat)](https://travis-ci.org/scrat-team/nunjucks-pagelet)
 
-- swig版本传送门: [scrat-swig](https://github.com/scrat-team/scrat-swig)
-- nunjucks的属性分割是逗号, 而不是空格, `{% body cdn="asd", class=["a", "b"], "data-src"="http://", "disabled" %}{% endbody %}`
-- `data-src` 这类的属性名, 必须双引号包裹
-- `disabled` 这类的没有赋值的属性, 必须双引号包裹
-
 ## 用法
 
 ```js
+var fs = require('fs');
+var path = require('path');
 var nunjucks = require('nunjucks');
 var engine = require('nujucks-pagelet');
 
@@ -35,6 +32,15 @@ const str = fs.readFileSync(path.join(baseDir, 'expect.html'), 'utf8');
 const html = env.render('test.tpl', locals);
 
 ```
+
+## 新增规则
+
+- 对`nunjucks`的自定义标签语法进行了修订:
+  - 属性分隔符可以是空格和逗号, 建议使用空格
+  - `data-src` 这类的属性名, 无需双引号包裹
+  - `disabled` 这类的没有赋值的属性, 无需双引号包裹
+  - 示例: `{% body cdn="asd", class=["a", "b"], style={a: true, b: someVar} data-src="http://", disabled %}{% endbody %}`
+- swig版本传送门: [scrat-swig](https://github.com/scrat-team/scrat-swig)
 
 ## 新增模板标签
 
@@ -182,8 +188,8 @@ const html = env.render('test.tpl', locals);
     ```
 
 * 注意：在body闭合标签之前，js输出的顺序是：
-    1. require标签加载的外链js
-    1. script标签收集的内联js
+  1. require标签加载的外链js
+  2. script标签收集的内联js
 
 ### pagelet
 

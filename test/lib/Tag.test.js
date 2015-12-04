@@ -59,11 +59,14 @@ describe('test/lib/Tag.test.js', function() {
 
   let testCases = [
     ['class="test"', 'class="test"'],
+    ['class="test" style="test"', 'class="test" style="test"'],
     ['class=clz', 'class="test"'],
     ['class=foo.bar', 'class="bar"'],
+    ['data-attr=clz', 'data-attr="test"'],
     ['"data-attr"=clz', 'data-attr="test"'],
     ['"data-attr-1-a"=clz', 'data-attr-1-a="test"'],
-    ['"disabled"', 'disabled'],
+    ['disabled', 'disabled'],
+    ['"checked"', 'checked'],
     ['class=["test1", clz]', 'class="test1 test"'],
     ['class=["test1"], style=clz', 'class="test1" style="test"'],
     ['class=["test1"], style=clz, "checked"', 'checked class="test1" style="test"']
