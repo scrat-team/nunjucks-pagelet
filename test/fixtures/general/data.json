@@ -1,6 +1,8 @@
 {
   "href": "http://scrat.io",
   "deep": {
-    "foo": "foo"
+    "foo": {
+      "foo": "foo"
+    }
   }
 }

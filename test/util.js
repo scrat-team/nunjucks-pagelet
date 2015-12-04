@@ -3,7 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const nunjucks = require('nunjucks');
-const framework = require('../');
+const engine = require('../');
 
 module.exports = function(targetDir, opt) {
   const baseDir = path.join(process.cwd(), './test/fixtures/', targetDir);
@@ -11,12 +11,12 @@ module.exports = function(targetDir, opt) {
   const mapFile = path.join(baseDir, 'map.json');
   const mapData = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
 
-  framework.configure(Object.assign({
+  engine.configure(Object.assign({
     root: baseDir,
     file: mapFile
   }, opt));
 
-  framework.tags.forEach((tag) => {
+  engine.tags.forEach((tag) => {
     env.addExtension(tag.tagName, tag);
   });
 
@@ -33,7 +33,7 @@ module.exports = function(targetDir, opt) {
     mapFile: mapFile,
     mapData: mapData,
     env: env,
-    framework: framework,
+    engine: engine,
     mount: mount
   };
 };

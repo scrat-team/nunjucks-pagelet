@@ -7,13 +7,13 @@ const sinon = require('sinon');
 const util = require('../../util');
 
 describe('test/lib/tags/ATF.test.js', function() {
-  let mm, env, framework, spy, locals;
+  let mm, env, engine, spy, locals;
 
   before(function() {
     mm = util('ATF');
     env = mm.env;
-    framework = mm.framework;
-    spy = sinon.spy(framework.Resource.prototype, 'useATF');
+    engine = mm.engine;
+    spy = sinon.spy(engine.Resource.prototype, 'useATF');
     locals = require(path.join(mm.baseDir, 'data.json'));
   });
 
@@ -37,7 +37,7 @@ describe('test/lib/tags/ATF.test.js', function() {
   it('should render ATF combo content', function() {
     mm = util('ATF_combo');
     env = mm.env;
-    framework = mm.framework;
+    engine = mm.engine;
     locals = require(path.join(mm.baseDir, 'data.json'));
     const str = fs.readFileSync(path.join(mm.baseDir, 'expect.html'), 'utf8');
     const html = env.render('test.tpl', locals);
@@ -48,7 +48,7 @@ describe('test/lib/tags/ATF.test.js', function() {
   it('should render ATF combo+domain content', function() {
     mm = util('ATF_combo_domain');
     env = mm.env;
-    framework = mm.framework;
+    engine = mm.engine;
     locals = require(path.join(mm.baseDir, 'data.json'));
     const str = fs.readFileSync(path.join(mm.baseDir, 'expect.html'), 'utf8');
     const html = env.render('test.tpl', locals);
