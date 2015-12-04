@@ -5,13 +5,13 @@ const sinon = require('sinon');
 const util = require('../../util');
 
 describe('test/lib/tags/script.test.js', function() {
-  let mm, env, framework, spy;
+  let mm, env, engine, spy;
 
   before(function() {
     mm = util('general');
     env = mm.env;
-    framework = mm.framework;
-    spy = sinon.spy(framework.Resource.prototype, 'addScript');
+    engine = mm.engine;
+    spy = sinon.spy(engine.Resource.prototype, 'addScript');
   });
 
   after(util.restore);

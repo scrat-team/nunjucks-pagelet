@@ -7,13 +7,13 @@ const expect = require('expect.js');
 const util = require('../util');
 
 describe('test/lib/Tag.test.js', function() {
-  let app, env, framework, Tag;
+  let app, env, engine, Tag;
 
   before(function() {
     app = util('general');
     env = app.env;
-    framework = app.framework;
-    Tag = framework.Tag;
+    engine = app.engine;
+    Tag = engine.Tag;
   });
 
   after(util.restore);
