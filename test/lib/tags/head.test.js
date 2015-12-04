@@ -1,17 +1,21 @@
 'use strict';
 
-const nunjucks = require('nunjucks');
 const expect = require('expect.js');
-// const sinon = require('sinon');
-
-const env = nunjucks.configure('test');
-const Tag = require('../../../lib/tags/head');
-env.addExtension('head', new Tag());
+const util = require('../../util');
 
 describe('test/lib/tags/head.test.js', function() {
+  let mm, env;
+
+  before(function() {
+    mm = util('general');
+    env = mm.env;
+  });
+
+  after(util.restore);
+
   it('should render head tag with CSS_HOOK', function() {
     const tpl = '{% head %}<meta charset="utf-8"/>{% endhead %}';
     const html = env.renderString(tpl, {});
-    expect(html).to.match(/^<head\s*>[\n\s]*<meta charset="utf-8"\/>[\n\s]*<!--SCRAT_CSS_HOOK--><\/head>/);
+    expect(html).to.equal('<head><meta charset="utf-8"/>\n<!--PAGELET_CSS_HOOK--></head>');
   });
 });

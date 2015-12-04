@@ -1,0 +1,1 @@
+{% test 'child.tpl' %}
