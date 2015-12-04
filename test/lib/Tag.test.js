@@ -54,7 +54,7 @@ describe('test/lib/Tag.test.js', function() {
       }
     ];
     let html = tag._packAttrs(attrs);
-    expect(html).to.equal('enabled checked a attr1="a" attr2="b" attr1="b" attr3="c" class="a b" style="a c"');
+    expect(html).to.equal('enabled checked a b attr1="a" attr2="b" attr1="b" attr3="c" class="a b" style="a c"');
   });
 
   let testCases = [
@@ -69,14 +69,15 @@ describe('test/lib/Tag.test.js', function() {
     ['"checked"', 'checked'],
     ['class=["test1", clz]', 'class="test1 test"'],
     ['class=["test1"], style=clz', 'class="test1" style="test"'],
-    ['class=["test1"], style=clz, "checked"', 'checked class="test1" style="test"']
-    // TODO: 是否需要转义?
-    // ['class="<"', 'class="&lt;"'],
-    // ['class=">"', 'class="&gt;"'],
-    // ['class="&"', 'class="&amp;"'],
-    // ['class="\'"', 'class="&#39;"'],
-    // ['class=jsonStr', 'class="{&quot;a&quot;:&quot;b&quot;}"'],
-    // ['class=html', 'class="&lt;img src=&gt;"']
+    ['class=["test1"] style=clz "checked"', 'checked class="test1" style="test"'],
+    // 转义
+    ['class="<script>alert(1)</script>"', 'class="&lt;script&gt;alert(1)&lt;/script&gt;"'],
+    ['class="<"', 'class="&lt;"'],
+    ['class=">"', 'class="&gt;"'],
+    ['class="&"', 'class="&amp;"'],
+    ['class="\'"', 'class="&#39;"'],
+    ['class=jsonStr', 'class="{&quot;a&quot;:&quot;b&quot;}"'],
+    ['class=html', 'class="&lt;img src=&gt;"']
   ];
   testCases.forEach((item) => {
     it('should parse: ' + item[0], function() {
