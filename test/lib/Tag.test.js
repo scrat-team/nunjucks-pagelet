@@ -87,9 +87,9 @@ describe('test/lib/Tag.test.js', function() {
   it('should render custom tag', function() {
     const tag = new Tag('custom');
     env.addExtension('custom', tag);
-    let tpl = '{% custom "data-attr1"=attr1, class=["a1", attr2, "a1", deep.foo], style={a: true, b: false, c: bool}, "readonly", attr2, undefinedVar, undefinedValue=aaa, ["test", attr2], {a:"test"}%}{{ content }}{% endcustom %}';
+    let tpl = '{% custom data-attr1=attr1 "data-attr2"=2+3 class=["a1", attr2, "a1", deep.foo] style={a: true, b: false, c: bool}, "readonly", attr2, undefinedVar, undefinedValue=aaa%}{{ content }}{% endcustom %}';
     let html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom readonly a2 test a="test" data-attr1="some attr" class="a1 a2 foo" style="a c" undefinedValue="">this is content</custom>');
+    expect(html).to.equal('<custom readonly attr2 undefinedVar data-attr1="some attr" data-attr2="5" class="a1 a2 foo" style="a c" undefinedValue="">this is content</custom>');
 
     // without attrs
     tpl = '{% custom %}{{ content }}{% endcustom %}';
