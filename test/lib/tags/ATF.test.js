@@ -33,4 +33,26 @@ describe('test/lib/tags/ATF.test.js', function() {
     // 去掉每行前面的空格
     expect(html.replace(/^\s*/gm, '')).to.equal(str.replace(/^\s*/gm, ''));
   });
+
+  it('should render ATF combo content', function() {
+    mm = util('ATF_combo');
+    env = mm.env;
+    framework = mm.framework;
+    locals = require(path.join(mm.baseDir, 'data.json'));
+    const str = fs.readFileSync(path.join(mm.baseDir, 'expect.html'), 'utf8');
+    const html = env.render('test.tpl', locals);
+    // 去掉每行前面的空格
+    expect(html.replace(/^\s*/gm, '')).to.equal(str.replace(/^\s*/gm, ''));
+  });
+
+  it('should render ATF combo+domain content', function() {
+    mm = util('ATF_combo_domain');
+    env = mm.env;
+    framework = mm.framework;
+    locals = require(path.join(mm.baseDir, 'data.json'));
+    const str = fs.readFileSync(path.join(mm.baseDir, 'expect.html'), 'utf8');
+    const html = env.render('test.tpl', locals);
+    // 去掉每行前面的空格
+    expect(html.replace(/^\s*/gm, '')).to.equal(str.replace(/^\s*/gm, ''));
+  });
 });

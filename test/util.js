@@ -12,6 +12,7 @@ module.exports = function(targetDir, opt) {
   const mapData = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
 
   framework.configure(Object.assign({
+    root: baseDir,
     file: mapFile
   }, opt));
 

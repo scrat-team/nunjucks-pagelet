@@ -1,6 +1,6 @@
 {
-    "href": "http://www.baidu.com",
-    "deep": {
-        "foo": "foo"
-    }
+  "href": "http://scrat.io",
+  "deep": {
+    "foo": "foo"
+  }
 }

@@ -6,7 +6,7 @@ const util = require('../../util');
 describe('test/lib/tags/pagelet.test.js', function() {
   let mm, env, tpl;
 
-  // const locals = {title: 'this is title', href: 'http://t.cn', deep: {foo: 'foo'}, override: {foo: 'override'}};
+  // const locals = {title: 'this is title', href: 'http://scrat.io', deep: {foo: 'foo'}, override: {foo: 'override'}};
 
   before(function() {
     mm = util('general');

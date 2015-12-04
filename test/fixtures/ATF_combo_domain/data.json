@@ -1,9 +1,9 @@
 {
-    "href": "http://www.baidu.com",
-    "deep": {
-        "foo": "foo"
-    },
-    "domain": {
-        "in": "http://cdn.com/"
-    }
+  "href": "http://scrat.io",
+  "deep": {
+   "foo": "foo"
+  },
+  "domain": {
+    "in": "http://cdn.com/"
+  }
 }

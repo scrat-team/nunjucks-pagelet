@@ -9,10 +9,11 @@ const util = require('../util');
 const spy = sinon.spy(fs, 'readFileSync');
 
 describe('test/Resource.test.js', function() {
-  let app, framework, Resource;
+  let app, framework, baseDir, Resource;
 
   before(function() {
     app = util('general');
+    baseDir = app.baseDir;
     framework = app.framework;
     Resource = framework.Resource;
   });
@@ -26,7 +27,8 @@ describe('test/Resource.test.js', function() {
   it('should read map', function() {
     Resource.configure({
       cache: true,
-      file: app.mapFile
+      file: app.mapFile,
+      root: baseDir
     });
     expect(Resource.manifest).to.eql(app.mapData);
   });
@@ -34,7 +36,8 @@ describe('test/Resource.test.js', function() {
   it('should cache map', function() {
     Resource.configure({
       cache: true,
-      file: app.mapFile
+      file: app.mapFile,
+      root: baseDir
     });
     Resource.manifest;
     Resource.manifest;
@@ -44,7 +47,8 @@ describe('test/Resource.test.js', function() {
 
   it('should not cache map', function() {
     Resource.configure({
-      file: app.mapFile
+      file: app.mapFile,
+      root: baseDir
     });
     Resource.manifest;
     Resource.manifest;

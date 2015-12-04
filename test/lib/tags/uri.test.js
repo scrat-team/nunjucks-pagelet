@@ -14,8 +14,8 @@ describe('test/lib/tags/uri.test.js', function() {
   after(util.restore);
 
   it('should render uri tag', function() {
-    const tpl = `{% html%}<img src="{% uri 'components/nav/nav.js' %}"/>{% endhtml%}`;
+    const tpl = `{% html%}<img src="{% uri 'components/nav/nav.js' %}"/><img src="{% uri $id='components/nav/nav.js' %}"/>{% endhtml%}`;
     const html = env.renderString(tpl, {});
-    expect(html).to.equal('<html><img src="c/nav/nav.js"/></html>');
+    expect(html).to.equal('<html><img src="c/nav/nav.js"/><img src="c/nav/nav.js"/></html>');
   });
 });
