@@ -6,7 +6,7 @@ scrat后端渲染组件化开发模式通过扩展 [nunjucks](http://mozilla.git
 [![Build Status](https://img.shields.io/travis/scrat-team/nunjucks-pagelet.svg?style=flat)](https://travis-ci.org/scrat-team/nunjucks-pagelet)
 
 - swig版本传送门: [scrat-swig](https://github.com/scrat-team/scrat-swig)
-- nunjucks的属性分割是逗号, 而不是空格, `{% body cdn="asd", class=["a", "b"], "data-src"="http://", "disabled" %}{% endbody %}
+- nunjucks的属性分割是逗号, 而不是空格, `{% body cdn="asd", class=["a", "b"], "data-src"="http://", "disabled" %}{% endbody %}`
 - `data-src` 这类的属性名, 必须双引号包裹
 - `disabled` 这类的没有赋值的属性, 必须双引号包裹
 
