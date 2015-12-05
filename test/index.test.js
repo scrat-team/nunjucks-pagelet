@@ -25,15 +25,12 @@ describe('test/index.test.js', function() {
   it('should use with nunjucks', function() {
     // 初始化资源
     const baseDir = path.join(process.cwd(), './test/fixtures/general');
-    engine.configure({
-      root: baseDir,
-      file: path.join(baseDir, 'map.json')
-    });
-
-    // 注册 nunjucks tag
     const env = nunjucks.configure(baseDir);
-    engine.tags.forEach((tag) => {
-      env.addExtension(tag.tagName, tag);
+    engine.register({
+      root: baseDir,
+      file: path.join(baseDir, 'map.json'),
+      nunjucks: nunjucks,
+      env: env
     });
 
     const locals = JSON.parse(fs.readFileSync(path.join(baseDir, 'data.json'), 'utf8'));

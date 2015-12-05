@@ -8,22 +8,19 @@ scrat后端渲染组件化开发模式通过扩展 [nunjucks](http://mozilla.git
 ## 用法
 
 ```js
-var fs = require('fs');
-var path = require('path');
-var nunjucks = require('nunjucks');
-var engine = require('nujucks-pagelet');
+const fs = require('fs');
+const path = require('path');
+const nunjucks = require('nunjucks');
+const engine = require('nujucks-pagelet');
 
 // 初始化资源
 const baseDir = path.join(process.cwd(), './test/fixtures/general');
-engine.configure({
-  root: baseDir,
-  file: path.join(baseDir, 'map.json')
-});
-
-// 注册 nunjucks tag
 const env = nunjucks.configure(baseDir);
-engine.tags.forEach((tag) => {
-  env.addExtension(tag.tagName, tag);
+engine.register({
+  root: baseDir,
+  file: path.join(baseDir, 'map.json'),
+  nunjucks: nunjucks,
+  env: env
 });
 
 // 渲染
