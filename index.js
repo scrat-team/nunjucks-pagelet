@@ -2,6 +2,7 @@
 
 const delegate = require('delegates');
 
+exports.helper = require('./lib/helper');
 exports.Tag = require('./lib/Tag');
 exports.Resource = require('./lib/Resource');
 delegate(exports, 'Resource').method('configure');

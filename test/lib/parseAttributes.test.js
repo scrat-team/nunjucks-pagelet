@@ -31,31 +31,6 @@ describe('test/lib/parseAttributes.test.js', function() {
     jsonStr: JSON.stringify({a: 'b'})
   };
 
-  it('should parse attrs', function() {
-    const tag = new Tag('custom');
-    let attrs = [
-      'enabled',
-      'checked',
-      'checked',
-      'a',
-      undefined,
-      ['a', 'b'],
-      {
-        attr1: 'a',
-        attr2: 'b'
-      },
-      {
-        attr1: 'b',
-        attr3: 'c',
-        class: ['a', 'b'],
-        style: {a: true, b: false, c: 'test'},
-        __keywords: true
-      }
-    ];
-    let html = tag._packAttrs(attrs);
-    expect(html).to.equal('enabled checked a b attr1="a" attr2="b" attr1="b" attr3="c" class="a b" style="a c"');
-  });
-
   let testCases = [
     ['class="test"', 'class="test"'],
     ['class="test" style="test"', 'class="test" style="test"'],
@@ -76,7 +51,8 @@ describe('test/lib/parseAttributes.test.js', function() {
     ['class="&"', 'class="&amp;"'],
     ['class="\'"', 'class="&#39;"'],
     ['class=jsonStr', 'class="{&quot;a&quot;:&quot;b&quot;}"'],
-    ['class=html', 'class="&lt;img src=&gt;"']
+    ['class=html', 'class="&lt;img src=&gt;"'],
+    ['class=html|safe', 'class="<img src=>"']
   ];
   testCases.forEach((item) => {
     it('should parse: ' + item[0], function() {
@@ -87,7 +63,7 @@ describe('test/lib/parseAttributes.test.js', function() {
     });
   });
 
-  it('should render custom tag', function() {
+  it('should parse attrs', function() {
     const tag = new Tag('custom');
     env.addExtension('custom', tag);
     let tpl = '{% custom data-attr1=attr1 "data-attr2"=2+3 class=["a1", attr2, "a1", deep.foo] style={a: true, b: false, c: bool}, "readonly", attr2, undefinedVar, undefinedValue=aaa%}{{ content }}{% endcustom %}';
@@ -103,5 +79,17 @@ describe('test/lib/parseAttributes.test.js', function() {
     tpl = '{% custom "data-attr1"=attr1, attr2="a2", "attr1"%}{% endcustom %}';
     html = env.renderString(tpl, locals);
     expect(html).to.equal('<custom attr1 data-attr1="some attr" attr2="a2"></custom>');
+  });
+
+  it('escape', function() {
+    let tpl = '{% if ("<a"|first|safe == "<") %}a{% endif %}';
+    let html = env.renderString(tpl, locals);
+    expect(html).to.equal('a');
+
+    const tag = new Tag('custom');
+    env.addExtension('custom', tag);
+    tpl = '{% custom a=("<script"|safe) b="<"%}{{ content }}{% endcustom %}';
+    html = env.renderString(tpl, locals);
+    expect(html).to.equal('<custom a="<script" b="&lt;">this is content</custom>');
   });
 });
