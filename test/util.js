@@ -11,9 +11,11 @@ module.exports = function(targetDir, opt) {
   const mapFile = path.join(baseDir, 'map.json');
   const mapData = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
 
-  engine.configure(Object.assign({
+  engine.register(Object.assign({
     root: baseDir,
-    file: mapFile
+    file: mapFile,
+    nunjucks: nunjucks,
+    env: env
   }, opt));
 
   engine.tags.forEach((tag) => {
