@@ -7,7 +7,7 @@ const engine = require('../');
 
 module.exports = function(targetDir, opt) {
   const baseDir = path.join(process.cwd(), './test/fixtures/', targetDir);
-  const env = nunjucks.configure(baseDir);
+  const env = nunjucks.configure(baseDir, {autoescape: true});
   const mapFile = path.join(baseDir, 'map.json');
   const mapData = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
 
