@@ -48,7 +48,7 @@ class Engine {
 
     this.Resource.configure(Object.assign({
       root: baseDir,
-      file: opt.file || path.join(baseDir, 'map.json')
+      manifest: path.join(baseDir, 'map.json')
     }, opt));
 
     this.tags.forEach((tag) => {
