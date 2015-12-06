@@ -57,7 +57,7 @@ describe('test/lib/Tag.test.js', function() {
         this.outputTag = 'div';
       }
     }
-    app.mount(SingleTag);
+    app.mountTag(SingleTag);
 
     let tpl = '{% single "data-attr1"=attr1, attr2="a2" %}{{ content }}';
     let html = env.renderString(tpl, locals);
@@ -76,7 +76,7 @@ describe('test/lib/Tag.test.js', function() {
         this.outputTag = 'div';
       }
     }
-    app.mount(SubTag);
+    app.mountTag(SubTag);
 
     const tpl = '{% sub "data-attr1"=attr1, attr2="a2"%}{{ content }}{% endsub %}';
     const html = env.renderString(tpl, locals);
@@ -128,7 +128,7 @@ describe('test/lib/Tag.test.js', function() {
       }
     }
 
-    app.mount(ParentTag, ChildTag, NextTag);
+    app.mountTag(ParentTag, ChildTag, NextTag);
 
     const tpl = '{% parent %}{% child %}{% endchild %}{% endparent %}{% next %}{% endnext %}';
     const html = env.renderString(tpl, locals);

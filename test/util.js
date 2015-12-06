@@ -18,16 +18,30 @@ module.exports = function(targetDir, opt) {
     env: env
   }, opt));
 
-  engine.tags.forEach((tag) => {
-    env.addExtension(tag.tagName, tag);
-  });
-
-  function mount(Tags) {
+  function mountTag(Tags) {
     Tags = Array.prototype.slice.call(arguments);
     Tags.forEach((Tag) => {
       let tag = new Tag();
       env.addExtension(tag.tagName, tag);
     });
+  }
+
+  function mockContext(obj) {
+    class Mock extends engine.Tag {
+      constructor() {
+        super('mock');
+      }
+      render(context, attrs, body) {
+        if (typeof obj === 'function') {
+          obj(context);
+        } else {
+          context.resource = Object.assign({}, context.resource, obj);
+          return this.safe(body());
+        }
+      }
+    }
+    mountTag(Mock);
+    return obj;
   }
 
   return {
@@ -36,7 +50,8 @@ module.exports = function(targetDir, opt) {
     mapData: mapData,
     env: env,
     engine: engine,
-    mount: mount
+    mountTag: mountTag,
+    mockContext: mockContext
   };
 };
 
