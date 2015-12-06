@@ -19,26 +19,25 @@ const env = nunjucks.configure(baseDir, {});
  * 初始化入口
  * @method Engine#register
  * @param {Object} opt 配置对象
- * @param {String} opt.file 资源映射表的文件路径
- * @param {String} opt.root 静态文件的根目录
  * @param {Object} opt.nunjucks nunjucks对象, 用于扩展
  * @param {Object} opt.env nunjucks.Environment 实例, 用于扩展
+ * @param {String|Object|Function} opt.manifest 资源映射表, 可以是文件路径/映射表对象/读取函数
+ * @param {String} opt.root 静态文件的根目录
  * @param {Boolean} [opt.cache] 是否缓存资源映射表
- * @param {Object} [opt.helper] 辅助方法, 覆盖helper类的 safe , escape,  SafeString 等
+ * @param {Object} [opt.helper] 辅助方法, 覆盖helper类的 safe , escape,  SafeString, comboURI 等
  * @param {Object} [opt.logger] 日志对象
- * @param {Function} [opt.comboURI] combo uri 处理
  * @return {void}
  */
 engine.register({
   root: baseDir,
-  file: path.join(baseDir, 'map.json'),
+  manifest: path.join(baseDir, 'manifest.json'),
+  cache: true,
   nunjucks: nunjucks,
   env: env
 });
 
 // 渲染
-const locals = JSON.parse(fs.readFileSync(path.join(baseDir, 'data.json'), 'utf8'));
-const str = fs.readFileSync(path.join(baseDir, 'expect.html'), 'utf8');
+const locals = {};
 const html = env.render('test.tpl', locals);
 
 ```

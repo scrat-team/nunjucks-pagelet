@@ -88,8 +88,20 @@ describe('test/lib/parseAttributes.test.js', function() {
 
     const tag = new Tag('custom');
     env.addExtension('custom', tag);
-    tpl = '{% custom a=("<script"|safe) b="<"%}{{ content }}{% endcustom %}';
+    tpl = '{% custom a=("<script"|safe) b="<" %}{{ content }}{% endcustom %}';
     html = env.renderString(tpl, locals);
     expect(html).to.equal('<custom a="<script" b="&lt;">this is content</custom>');
+  });
+
+  it('throw error', function() {
+    const tag = new Tag('custom');
+    env.addExtension('custom', tag);
+    expect(function() {
+      env.renderString('{% custom <script>="as" %}{{ content }}{% endcustom %}', locals);
+    }).to.throwError();
+
+    expect(function() {
+      env.renderString('{% custom data-src-="as" %}{{ content }}{% endcustom %}', locals);
+    }).to.throwError();
   });
 });

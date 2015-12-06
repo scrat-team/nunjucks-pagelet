@@ -8,12 +8,12 @@ const engine = require('../');
 module.exports = function(targetDir, opt) {
   const baseDir = path.join(process.cwd(), './test/fixtures/', targetDir);
   const env = nunjucks.configure(baseDir, {autoescape: true});
-  const mapFile = path.join(baseDir, 'map.json');
-  const mapData = JSON.parse(fs.readFileSync(mapFile, 'utf8'));
+  const manifestFile = path.join(baseDir, 'map.json');
+  const manifestData = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
 
   engine.register(Object.assign({
     root: baseDir,
-    file: mapFile,
+    manifest: manifestFile,
     nunjucks: nunjucks,
     env: env
   }, opt));
@@ -46,8 +46,8 @@ module.exports = function(targetDir, opt) {
 
   return {
     baseDir: baseDir,
-    mapFile: mapFile,
-    mapData: mapData,
+    manifestFile: manifestFile,
+    manifestData: manifestData,
     env: env,
     engine: engine,
     mountTag: mountTag,
