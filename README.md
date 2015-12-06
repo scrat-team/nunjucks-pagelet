@@ -40,6 +40,31 @@ engine.register({
 const locals = {};
 const html = env.render('test.tpl', locals);
 
+// use in express
+const express = require('express');
+const app = express();
+app.set('view engine', 'tpl');
+env.express(app);
+
+// 注册中间件, 读取 Pagelet 的参数
+app.use(function(req, res, next) {
+  res.locals._query = req.query;
+  res.locals._body = req.body;
+  var pagelets = req.get('X-Pagelets');
+  if(pagelets){
+      res.set('Content-Type', 'application/json');
+      // res.set('Cache-Control', 'no-cache, no-store');
+      // res.set('Pragma', 'no-cache');
+      // res.set('Expires', 0);
+      res.locals._pagelets = pagelets;
+  }
+  next();
+});
+
+app.get('/', function(req, res) {
+  res.render('test.tpl', res.locals);
+});
+
 ```
 
 ## 资源依赖表
@@ -119,7 +144,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
   - 示例:
     - `{% body cdn="asd", data-src="http://", disabled %}{% endbody %}`
     - `{% pagelet $id="asd" class=["a", "b"] style={a: true, b: someVar} %}{% endpagelet %}`
-- swig版本传送门: [scrat-swig](https://github.com/scrat-team/scrat-swig)
+- swig版本传送门: [scrat-swig](https://github.com/scrat-team/scrat-swig), Base on Latest commit 6cdcb1f on 20 Oct .
 
 ## 新增模板标签
 
