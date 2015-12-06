@@ -24,19 +24,39 @@ describe('test/Resource.test.js', function() {
     spy.reset();
   });
 
-  it('should read map', function() {
+  it('should read manifest file', function() {
     Resource.configure({
       cache: true,
-      file: app.mapFile,
+      manifest: app.manifestFile,
       root: baseDir
     });
-    expect(Resource.manifest).to.eql(app.mapData);
+    expect(Resource.manifest).to.eql(app.manifestData);
   });
 
-  it('should cache map', function() {
+  it('should use manifest object', function() {
     Resource.configure({
       cache: true,
-      file: app.mapFile,
+      manifest: {res: {}},
+      root: baseDir
+    });
+    expect(Resource.manifest).to.eql({res: {}});
+  });
+
+  it('should use manifest function', function() {
+    Resource.configure({
+      cache: true,
+      manifest: function() {
+        return {res: {}, combo: true};
+      },
+      root: baseDir
+    });
+    expect(Resource.manifest).to.eql({res: {}, combo: true});
+  });
+
+  it('should cache manifest', function() {
+    Resource.configure({
+      cache: true,
+      manifest: app.manifestFile,
       root: baseDir
     });
     Resource.manifest;
@@ -45,9 +65,9 @@ describe('test/Resource.test.js', function() {
     expect(spy.callCount).to.be(1);
   });
 
-  it('should not cache map', function() {
+  it('should not cache manifest', function() {
     Resource.configure({
-      file: app.mapFile,
+      manifest: app.manifestFile,
       root: baseDir
     });
     Resource.manifest;

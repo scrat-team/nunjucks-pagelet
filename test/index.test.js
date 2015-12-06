@@ -28,7 +28,7 @@ describe('test/index.test.js', function() {
     const env = nunjucks.configure(baseDir);
     engine.register({
       root: baseDir,
-      file: path.join(baseDir, 'map.json'),
+      manifest: path.join(baseDir, 'map.json'),
       nunjucks: nunjucks,
       env: env
     });
