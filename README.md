@@ -150,7 +150,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 * 示例：
 
     ```twig
-    {% html class="abc", data-value="bcd" %}
+    {% html class="abc" data-value="bcd" %}
       ...
     {% endhtml %}
     ```
@@ -172,7 +172,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 
     ```twig
     {% html%}
-      {% head class="abc", data-xxx="bcd" %}
+      {% head class="abc" data-xxx="bcd" %}
         ...
       {% endhead %}
       ...
@@ -202,7 +202,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
       {% head %}
         ...
       {% endhead %}
-      {% body class="main", id="main", "data-ooo"="abc" %}
+      {% body class="main" id="main" "data-ooo"="abc" %}
         ...
       {% endbody %}
     {% endhtml %}
@@ -288,15 +288,15 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
       {% endhead %}
       {% body %}
         ...
-        {% pagelet $id="main", class="main" %}
+        {% pagelet $id="main" class="main" %}
           <ul>
-            {% pagelet $id="list", $tag="none" %}
+            {% pagelet $id="list" $tag="none" %}
               {% for item in list %}
               <li>{{ loop.index }} - {{ loop.key }}: {{ x }}</li>
               {% endfor %}
             {% endpagelet %}
           </ul>
-          {% pagelet $id="form", $tag="form", id="my-form", class="form-control" %}
+          {% pagelet $id="form" $tag="form" id="my-form" class="form-control" %}
             <input type="text" name="username">
           {% endpagelet %}
         {% endpagelet %}
@@ -332,7 +332,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 
 ### title
 
-* 功能：如果使用quickling切换页面，你的页面此标签替代原生的 `<title>` 标签用以收集页面标题数据，这样页面切换后框架可以自动修改页面的title显示。
+* 功能：如果使用 quickling 切换页面，你的页面此标签替代原生的 `<title>` 标签用以收集页面标题数据，这样页面切换后框架可以自动修改页面的title显示。
 * 闭合：YES
 * 参数：无
 * 示例：
@@ -377,8 +377,8 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
       {% endhead %}
       {% body %}
         ...
-        {% pagelet $id="main", class="main" %}
-          {% pagelet $id="list", $tag="ul" %}
+        {% pagelet $id="main" class="main" %}
+          {% pagelet $id="list" $tag="ul" %}
             {% for item in list %}
             <li>{{ loop.index }} - {{ loop.key }}: {{ x }}</li>
             {% endfor %}
