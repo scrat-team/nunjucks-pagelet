@@ -8,14 +8,27 @@ scrat后端渲染组件化开发模式通过扩展 [nunjucks](http://mozilla.git
 ## 用法
 
 ```js
-const fs = require('fs');
 const path = require('path');
 const nunjucks = require('nunjucks');
 const engine = require('nujucks-pagelet');
 
-// 初始化资源
 const baseDir = path.join(process.cwd(), './test/fixtures/general');
-const env = nunjucks.configure(baseDir);
+const env = nunjucks.configure(baseDir, {});
+
+/**
+ * 初始化入口
+ * @method Engine#register
+ * @param {Object} opt 配置对象
+ * @param {String} opt.file 资源映射表的文件路径
+ * @param {String} opt.root 静态文件的根目录
+ * @param {Object} opt.nunjucks nunjucks对象, 用于扩展
+ * @param {Object} opt.env nunjucks.Environment 实例, 用于扩展
+ * @param {Boolean} [opt.cache] 是否缓存资源映射表
+ * @param {Object} [opt.helper] 辅助方法, 覆盖helper类的 safe , escape,  SafeString 等
+ * @param {Object} [opt.logger] 日志对象
+ * @param {Function} [opt.comboURI] combo uri 处理
+ * @return {void}
+ */
 engine.register({
   root: baseDir,
   file: path.join(baseDir, 'map.json'),
@@ -28,6 +41,74 @@ const locals = JSON.parse(fs.readFileSync(path.join(baseDir, 'data.json'), 'utf8
 const str = fs.readFileSync(path.join(baseDir, 'expect.html'), 'utf8');
 const html = env.render('test.tpl', locals);
 
+```
+
+## 资源依赖表
+
+manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关系.
+
+```
+{
+  "combo": false,
+  "comboPattern": "/co??%s",
+  "hash": "f0ab3c",
+  "res": {
+    "components/nav/nav.js": {
+      "uri": "c/nav/nav.js",
+      "type": "js",
+      "deps": [
+        "views/jquery/jquery.js",
+        "components/nav/nav.css"
+      ]
+    },
+    "components/nav/nav.css": {
+      "uri": "c/nav/nav.css",
+      "type": "css",
+      "deps": [
+        "views/reset/reset.css"
+      ]
+    },
+    "components/bar/bar.tpl": {
+      "uri": "c/bar/bar.tpl",
+      "type": "tpl",
+      "deps": [
+        "nav",
+        "components/bar/bar.css"
+      ]
+    },
+    "components/bar/bar.css": {
+      "uri": "c/bar/bar.css",
+      "type": "css"
+    },
+    "components/foo/foo.tpl": {
+      "uri": "c/foo/foo.tpl",
+      "type": "tpl",
+      "deps": [
+        "nav",
+        "components/foo/foo.css"
+      ]
+    },
+    "components/foo/foo.css": {
+      "uri": "c/foo/foo.css",
+      "type": "css"
+    },
+    "views/jquery/jquery.js": {
+      "uri": "v/jquery/jquery.js",
+      "type": "js"
+    },
+    "views/reset/reset.css": {
+      "uri": "v/reset/reset.css",
+      "type": "css"
+    },
+    "views/index/index.tpl": {
+      "uri": "views/test.tpl",
+      "type": "tpl",
+      "deps": [
+        "foo"
+      ]
+    }
+  }
+}
 ```
 
 ## 新增规则
