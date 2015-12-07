@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "scrat-swig的nunjucks版本, 提供pagelet支持",
   "dependencies": {
-    "delegates": "^0.1.0",
-    "nunjucks": "~2.2.0"
+    "delegates": "^0.1.0"
   },
   "devDependencies": {
     "autod": "*",
@@ -23,7 +22,8 @@
     "should": "6",
     "sinon": "~1.17.2",
     "istanbul": "^0.4.1",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "nunjucks": "~2.2.0"
   },
   "main": "index.js",
   "files": [

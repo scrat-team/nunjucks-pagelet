@@ -7,11 +7,11 @@ const expect = require('expect.js');
 const util = require('./util');
 
 describe('test/index.test.js', function() {
-  let app, engine;
+  let mm, engine;
 
   before(function() {
-    app = util('general');
-    engine = app.engine;
+    mm = util('general');
+    engine = mm.engine;
   });
 
   after(util.restore);

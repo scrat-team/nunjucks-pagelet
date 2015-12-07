@@ -7,12 +7,12 @@ const expect = require('expect.js');
 const util = require('../util');
 
 describe('test/lib/Tag.test.js', function() {
-  let app, env, engine, Tag;
+  let mm, env, engine, Tag;
 
   before(function() {
-    app = util('general');
-    env = app.env;
-    engine = app.engine;
+    mm = util('general');
+    env = mm.env;
+    engine = mm.engine;
     Tag = engine.Tag;
   });
 
@@ -57,7 +57,7 @@ describe('test/lib/Tag.test.js', function() {
         this.outputTag = 'div';
       }
     }
-    app.mountTag(SingleTag);
+    mm.mountTag(SingleTag);
 
     let tpl = '{% single "data-attr1"=attr1, attr2="a2" %}{{ content }}';
     let html = env.renderString(tpl, locals);
@@ -76,7 +76,7 @@ describe('test/lib/Tag.test.js', function() {
         this.outputTag = 'div';
       }
     }
-    app.mountTag(SubTag);
+    mm.mountTag(SubTag);
 
     const tpl = '{% sub "data-attr1"=attr1, attr2="a2"%}{{ content }}{% endsub %}';
     const html = env.renderString(tpl, locals);
@@ -128,7 +128,7 @@ describe('test/lib/Tag.test.js', function() {
       }
     }
 
-    app.mountTag(ParentTag, ChildTag, NextTag);
+    mm.mountTag(ParentTag, ChildTag, NextTag);
 
     const tpl = '{% parent %}{% child %}{% endchild %}{% endparent %}{% next %}{% endnext %}';
     const html = env.renderString(tpl, locals);
