@@ -139,10 +139,10 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 
 - 对`nunjucks`的自定义标签语法进行了修订:
   - 属性分隔符增加对空格的支持, 原逗号仍保留支持, 但建议使用空格
-  - `data-src` 这类的属性名, 无需双引号包裹
-  - `disabled` 这类的没有赋值的属性, 无需双引号包裹, 不再支持变量
+  - `data-src="http://"` 这类的属性名, 无需双引号包裹
+  - `disabled` 这类的没有赋值的属性, 还是维持官方的实现, 需要双引号包裹, 否则会当做变量
   - 示例:
-    - `{% body cdn="asd", data-src="http://", disabled %}{% endbody %}`
+    - `{% body cdn="asd", data-src="http://", "disabled"" %}{% endbody %}`
     - `{% pagelet $id="asd" class=["a", "b"] style={a: true, b: someVar} %}{% endpagelet %}`
 - swig版本传送门: [scrat-swig](https://github.com/scrat-team/scrat-swig), Base on Latest commit 6cdcb1f on 20 Oct .
 
