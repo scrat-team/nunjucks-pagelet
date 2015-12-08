@@ -9,12 +9,12 @@ const util = require('../util');
 const spy = sinon.spy(fs, 'readFileSync');
 
 describe('test/Resource.test.js', function() {
-  let app, engine, baseDir, Resource;
+  let mm, engine, baseDir, Resource;
 
   before(function() {
-    app = util('general');
-    baseDir = app.baseDir;
-    engine = app.engine;
+    mm = util('general');
+    baseDir = mm.baseDir;
+    engine = mm.engine;
     Resource = engine.Resource;
   });
 
@@ -27,10 +27,10 @@ describe('test/Resource.test.js', function() {
   it('should read manifest file', function() {
     Resource.configure({
       cache: true,
-      manifest: app.manifestFile,
+      manifest: mm.manifestFile,
       root: baseDir
     });
-    expect(Resource.manifest).to.eql(app.manifestData);
+    expect(Resource.manifest).to.eql(mm.manifestData);
   });
 
   it('should use manifest object', function() {
@@ -56,7 +56,7 @@ describe('test/Resource.test.js', function() {
   it('should cache manifest', function() {
     Resource.configure({
       cache: true,
-      manifest: app.manifestFile,
+      manifest: mm.manifestFile,
       root: baseDir
     });
     Resource.manifest;
@@ -67,7 +67,7 @@ describe('test/Resource.test.js', function() {
 
   it('should not cache manifest', function() {
     Resource.configure({
-      manifest: app.manifestFile,
+      manifest: mm.manifestFile,
       root: baseDir
     });
     Resource.manifest;
