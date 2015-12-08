@@ -28,7 +28,9 @@ describe('test/lib/parseAttributes.test.js', function() {
       bar: 'bar'
     },
     html: '<img src=>',
-    jsonStr: JSON.stringify({a: 'b'})
+    jsonStr: JSON.stringify({a: 'b'}),
+    data: 'foo',
+    attr3: 'bar'
   };
 
   let testCases = [
@@ -39,7 +41,6 @@ describe('test/lib/parseAttributes.test.js', function() {
     ['data-attr=clz', 'data-attr="test"'],
     ['"data-attr"=clz', 'data-attr="test"'],
     ['"data-attr-1-a"=clz', 'data-attr-1-a="test"'],
-    ['disabled', 'disabled'],
     ['"checked"', 'checked'],
     ['class=["test1", clz]', 'class="test1 test"'],
     ['class=["test1"], style=clz', 'class="test1" style="test"'],
@@ -52,7 +53,8 @@ describe('test/lib/parseAttributes.test.js', function() {
     ['class="\'"', 'class="&#39;"'],
     ['class=jsonStr', 'class="{&quot;a&quot;:&quot;b&quot;}"'],
     ['class=html', 'class="&lt;img src=&gt;"'],
-    ['class=html|safe', 'class="<img src=>"']
+    ['class=html|safe', 'class="<img src=>"'],
+    ['data+attr3', 'foobar']
   ];
   testCases.forEach((item) => {
     it('should parse: ' + item[0], function() {
@@ -68,7 +70,7 @@ describe('test/lib/parseAttributes.test.js', function() {
     env.addExtension('custom', tag);
     let tpl = '{% custom data-attr1=attr1 "data-attr2"=2+3 class=["a1", attr2, "a1", deep.foo] style={a: true, b: false, c: bool}, "readonly", attr2, undefinedVar, undefinedValue=aaa%}{{ content }}{% endcustom %}';
     let html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom readonly attr2 undefinedVar data-attr1="some attr" data-attr2="5" class="a1 a2 foo" style="a c" undefinedValue="">this is content</custom>');
+    expect(html).to.equal('<custom readonly a2 data-attr1="some attr" data-attr2="5" class="a1 a2 foo" style="a c" undefinedValue="">this is content</custom>');
 
     // without attrs
     tpl = '{% custom %}{{ content }}{% endcustom %}';
