@@ -33,6 +33,7 @@ class Engine {
    * @return {void}
    */
   register(opt) {
+    /* istanbul ignore next */
     const baseDir = opt.root || process.cwd();
     const env = opt.env;
     const nunjucks = opt.nunjucks;

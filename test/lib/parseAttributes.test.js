@@ -18,7 +18,10 @@ describe('test/lib/parseAttributes.test.js', function() {
   after(util.restore);
 
   let testCases = [
+    [11, '11'],
+    ['12', '12'],
     ['class="test"', 'class="test"'],
+    ['class="test" count=1', 'class="test" count="1"'],
     ['class="test" style="test"', 'class="test" style="test"'],
     ['class=clz', 'class="test"'],
     ['class=foo.bar', 'class="bar"'],
@@ -32,6 +35,7 @@ describe('test/lib/parseAttributes.test.js', function() {
     // 转义
     ['class="<script>alert(1)</script>"', 'class="&lt;script&gt;alert(1)&lt;/script&gt;"'],
     ['class="<"', 'class="&lt;"'],
+    ['"<"', '&lt;'],
     ['class=">"', 'class="&gt;"'],
     ['class="&"', 'class="&amp;"'],
     ['class="\'"', 'class="&#39;"'],
@@ -78,10 +82,14 @@ describe('test/lib/parseAttributes.test.js', function() {
     env.addExtension('custom', tag);
     expect(function() {
       env.renderString('{% custom <script>="as" %}{{ content }}{% endcustom %}', mm.locals);
-    }).to.throwError();
+    }).to.throwError(/unexpected token/);
 
     expect(function() {
       env.renderString('{% custom data-src-="as" %}{{ content }}{% endcustom %}', mm.locals);
-    }).to.throwError();
+    }).to.throwError(/unexpected token/);
+
+    expect(function() {
+      env.renderString('{% custom a-"f"="a" %}{{ content }}{% endcustom %}', mm.locals);
+    }).to.throwError(/invalid key name/);
   });
 });
