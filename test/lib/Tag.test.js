@@ -18,36 +18,19 @@ describe('test/lib/Tag.test.js', function() {
 
   after(util.restore);
 
-  const locals = {
-    attr1: 'some attr',
-    attr2: 'a2',
-    content: 'this is content',
-    bool: true,
-    deep: {foo: 'foo'},
-    clz: 'test',
-    foo: {
-      bar: 'bar'
-    },
-    html: '<img src=>',
-    jsonStr: JSON.stringify({a: 'b'})
-  };
-
   it('should render custom tag', function() {
     const tag = new Tag('custom');
     env.addExtension('custom', tag);
     let tpl = '{% custom data-attr1=attr1 "readonly" %}{{ content }}{% endcustom %}';
-    let html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom readonly data-attr1="some attr">this is content</custom>');
+    mm.equal(tpl, '<custom readonly data-attr1="some attr">this is content</custom>');
 
     // without attrs
     tpl = '{% custom %}{{ content }}{% endcustom %}';
-    html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom>this is content</custom>');
+    mm.equal(tpl, '<custom>this is content</custom>');
 
     // without body
     tpl = '{% custom "data-attr1"=attr1, attr2="a2", "attr1"%}{% endcustom %}';
-    html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom attr1 data-attr1="some attr" attr2="a2"></custom>');
+    mm.equal(tpl, '<custom attr1 data-attr1="some attr" attr2="a2"></custom>');
   });
 
   it('should support not-block tag', function() {
@@ -60,13 +43,11 @@ describe('test/lib/Tag.test.js', function() {
     mm.mountTag(SingleTag);
 
     let tpl = '{% single "data-attr1"=attr1, attr2="a2" %}{{ content }}';
-    let html = env.renderString(tpl, locals);
-    expect(html).to.equal('<div data-attr1="some attr" attr2="a2"></div>this is content');
+    mm.equal(tpl, '<div data-attr1="some attr" attr2="a2"></div>this is content');
 
     // without attrs
     tpl = '{% single %}{{ content }}';
-    html = env.renderString(tpl, locals);
-    expect(html).to.equal('<div></div>this is content');
+    mm.equal(tpl, '<div></div>this is content');
   });
 
   it('should extend base tag', function() {
@@ -79,8 +60,7 @@ describe('test/lib/Tag.test.js', function() {
     mm.mountTag(SubTag);
 
     const tpl = '{% sub "data-attr1"=attr1, attr2="a2"%}{{ content }}{% endsub %}';
-    const html = env.renderString(tpl, locals);
-    expect(html).to.equal('<div data-attr1="some attr" attr2="a2">this is content</div>');
+    mm.equal(tpl, '<div data-attr1="some attr" attr2="a2">this is content</div>');
   });
 
   it('should use ext context', function() {
@@ -131,8 +111,7 @@ describe('test/lib/Tag.test.js', function() {
     mm.mountTag(ParentTag, ChildTag, NextTag);
 
     const tpl = '{% parent %}{% child %}{% endchild %}{% endparent %}{% next %}{% endnext %}';
-    const html = env.renderString(tpl, locals);
-    expect(html).to.equal('<parent><child>abc</child></parent><next>undefined</next>');
+    mm.equal(tpl, '<parent><child>abc</child></parent><next>undefined</next>');
   });
 
   it('should include', function() {

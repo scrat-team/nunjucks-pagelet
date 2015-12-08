@@ -6,32 +6,16 @@ const expect = require('expect.js');
 const util = require('../util');
 
 describe('test/lib/parseAttributes.test.js', function() {
-  let app, env, engine, Tag;
+  let mm, env, engine, Tag;
 
   before(function() {
-    app = util('general');
-    env = app.env;
-    engine = app.engine;
+    mm = util('general');
+    env = mm.env;
+    engine = mm.engine;
     Tag = engine.Tag;
   });
 
   after(util.restore);
-
-  const locals = {
-    attr1: 'some attr',
-    attr2: 'a2',
-    content: 'this is content',
-    bool: true,
-    deep: {foo: 'foo'},
-    clz: 'test',
-    foo: {
-      bar: 'bar'
-    },
-    html: '<img src=>',
-    jsonStr: JSON.stringify({a: 'b'}),
-    data: 'foo',
-    attr3: 'bar'
-  };
 
   let testCases = [
     ['class="test"', 'class="test"'],
@@ -54,14 +38,13 @@ describe('test/lib/parseAttributes.test.js', function() {
     ['class=jsonStr', 'class="{&quot;a&quot;:&quot;b&quot;}"'],
     ['class=html', 'class="&lt;img src=&gt;"'],
     ['class=html|safe', 'class="<img src=>"'],
-    ['data+attr3', 'foobar']
+    ['clz + "_"+foo.bar', 'test_bar']
   ];
   testCases.forEach((item) => {
     it('should parse: ' + item[0], function() {
       const tag = new Tag('test');
       env.addExtension('test', tag);
-      let tpl = '{%test ' + item[0] + '%}content{% endtest %}';
-      expect(env.renderString(tpl, locals)).to.be.equal('<test ' + item[1] + '>content</test>');
+      mm.equal(`{% test ${item[0]} %}content{% endtest %}`, `<test ${item[1]}>content</test>`);
     });
   });
 
@@ -69,41 +52,36 @@ describe('test/lib/parseAttributes.test.js', function() {
     const tag = new Tag('custom');
     env.addExtension('custom', tag);
     let tpl = '{% custom data-attr1=attr1 "data-attr2"=2+3 class=["a1", attr2, "a1", deep.foo] style={a: true, b: false, c: bool}, "readonly", attr2, undefinedVar, undefinedValue=aaa%}{{ content }}{% endcustom %}';
-    let html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom readonly a2 data-attr1="some attr" data-attr2="5" class="a1 a2 foo" style="a c" undefinedValue="">this is content</custom>');
+    mm.equal(tpl, '<custom readonly a2 data-attr1="some attr" data-attr2="5" class="a1 a2 foo" style="a c" undefinedValue="">this is content</custom>');
 
     // without attrs
     tpl = '{% custom %}{{ content }}{% endcustom %}';
-    html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom>this is content</custom>');
+    mm.equal(tpl, '<custom>this is content</custom>');
 
     // without body
     tpl = '{% custom "data-attr1"=attr1, attr2="a2", "attr1"%}{% endcustom %}';
-    html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom attr1 data-attr1="some attr" attr2="a2"></custom>');
+    mm.equal(tpl, '<custom attr1 data-attr1="some attr" attr2="a2"></custom>');
   });
 
   it('escape', function() {
     let tpl = '{% if ("<a"|first|safe == "<") %}a{% endif %}';
-    let html = env.renderString(tpl, locals);
-    expect(html).to.equal('a');
+    mm.equal(tpl, 'a');
 
     const tag = new Tag('custom');
     env.addExtension('custom', tag);
     tpl = '{% custom a=("<script"|safe) b="<" %}{{ content }}{% endcustom %}';
-    html = env.renderString(tpl, locals);
-    expect(html).to.equal('<custom a="<script" b="&lt;">this is content</custom>');
+    mm.equal(tpl, '<custom a="<script" b="&lt;">this is content</custom>');
   });
 
   it('throw error', function() {
     const tag = new Tag('custom');
     env.addExtension('custom', tag);
     expect(function() {
-      env.renderString('{% custom <script>="as" %}{{ content }}{% endcustom %}', locals);
+      env.renderString('{% custom <script>="as" %}{{ content }}{% endcustom %}', mm.locals);
     }).to.throwError();
 
     expect(function() {
-      env.renderString('{% custom data-src-="as" %}{{ content }}{% endcustom %}', locals);
+      env.renderString('{% custom data-src-="as" %}{{ content }}{% endcustom %}', mm.locals);
     }).to.throwError();
   });
 });

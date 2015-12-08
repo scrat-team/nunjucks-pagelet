@@ -23,8 +23,7 @@ describe('test/lib/tags/html.test.js', function() {
 
   it('should render empty attrs', function() {
     const tpl = '{% html %}{{ content }}{% endhtml %}';
-    const html = env.renderString(tpl, locals);
-    expect(html).to.equal('<html>this is content</html>');
+    mm.equal(tpl, '<html>this is content</html>');
   });
 
   it('should render pagelet json', function() {
