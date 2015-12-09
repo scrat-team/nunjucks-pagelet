@@ -37,7 +37,7 @@ module.exports = function(targetDir, opt) {
 
   function mountTag(Tags) {
     Tags = Array.prototype.slice.call(arguments);
-    Tags.forEach((Tag) => {
+    Tags.forEach(Tag => {
       let tag = new Tag();
       env.addExtension(tag.tagName, tag);
     });

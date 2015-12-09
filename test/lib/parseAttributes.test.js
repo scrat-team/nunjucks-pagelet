@@ -44,7 +44,7 @@ describe('test/lib/parseAttributes.test.js', function() {
     ['class=html|safe', 'class="<img src=>"'],
     ['clz + "_"+foo.bar', 'test_bar']
   ];
-  testCases.forEach((item) => {
+  testCases.forEach(item => {
     it('should parse: ' + item[0], function() {
       const tag = new Tag('test');
       env.addExtension('test', tag);
