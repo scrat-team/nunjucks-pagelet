@@ -6,8 +6,6 @@ const util = require('../../util');
 describe('test/lib/tags/pagelet.test.js', function() {
   let mm, env, tpl;
 
-  // const locals = {title: 'this is title', href: 'http://scrat.io', deep: {foo: 'foo'}, override: {foo: 'override'}};
-
   before(function() {
     mm = util('general');
     env = mm.env;
@@ -28,7 +26,7 @@ describe('test/lib/tags/pagelet.test.js', function() {
     tpl = '{% html %}{% pagelet $id="main", class="a" %}hello{% endpagelet %}{% endhtml %}';
     mm.equal(tpl, '<html><div class="a" data-pagelet="main">hello</div></html>');
 
-    tpl = '{% html %}{% pagelet $id=\'main\', class=["a", b, c.e] %}hello{% endpagelet %}{% endhtml %}';
+    tpl = '{% html %}{% pagelet $id=\'main\', class=["a", b, c.e] | join(" ") %}hello{% endpagelet %}{% endhtml %}';
     expect(env.renderString(tpl, {b: 'b', c: {e: 'c.e'}})).to.equal('<html><div class="a b c.e" data-pagelet="main">hello</div></html>');
 
     tpl = '{% html %}{% pagelet $id="main", $tag="ul", class=\'a\' %}hello{% endpagelet %}{% endhtml %}';

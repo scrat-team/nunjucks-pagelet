@@ -7,7 +7,7 @@ const delegate = require('delegates');
 class Engine {
   constructor() {
     this.helper = require('./lib/helper');
-    this.Tag = require('./lib/Tag');
+    this.Tag = require('nunjucks-tag');
     this.Resource = require('./lib/Resource');
 
     this.TagNames = ['body', 'head', 'html', 'pagelet', 'require', 'script', 'uri', 'title', 'datalet', 'ATF'];
