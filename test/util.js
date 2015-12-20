@@ -31,7 +31,6 @@ module.exports = function(targetDir, opt) {
   engine.register(Object.assign({
     root: baseDir,
     manifest: manifestFile,
-    nunjucks: nunjucks,
     env: env
   }, opt));
 

@@ -29,7 +29,6 @@ describe('test/index.test.js', function() {
     engine.register({
       root: baseDir,
       manifest: path.join(baseDir, 'map.json'),
-      nunjucks: nunjucks,
       env: env
     });
 

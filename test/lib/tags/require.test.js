@@ -26,5 +26,15 @@ describe('test/lib/tags/require.test.js', function() {
     const html = env.renderString(tpl, locals);
     expect(html).to.equal('<html><h1>this is title</h1>\n<a href="http://scrat.io">scrat</a>\n<span>foo</span></html>');
   });
+
+  it('should provide $id attr', function() {
+    expect(function() {
+      mm.env.renderString('{% require %}', mm.locals);
+    }).to.throwError(/require tag need \$id attr/);
+
+    expect(function() {
+      mm.env.renderString('{% require a="b" %}', mm.locals);
+    }).to.throwError(/require tag need \$id attr/);
+  });
 });
 

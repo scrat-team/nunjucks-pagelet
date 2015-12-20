@@ -4,9 +4,8 @@ const path = require('path');
 const assert = require('assert');
 const delegate = require('delegates');
 
-class Engine {
+class Pagelet {
   constructor() {
-    this.helper = require('./lib/helper');
     this.Tag = require('nunjucks-tag');
     this.Resource = require('./lib/Resource');
 
@@ -23,12 +22,10 @@ class Engine {
    * 初始化入口
    * @method Engine#register
    * @param {Object} opt 配置对象
-   * @param {Object} opt.nunjucks nunjucks对象, 用于扩展
    * @param {Object} opt.env nunjucks.Environment 实例, 用于扩展
    * @param {String|Object|Function} opt.manifest 资源映射表, 可以是文件路径/映射表对象/读取函数
    * @param {String} opt.root 静态文件的根目录
    * @param {Boolean} [opt.cache] 是否缓存资源映射表
-   * @param {Object} [opt.helper] 辅助方法, 覆盖helper类的 safe , escape,  SafeString, comboURI 等
    * @param {Object} [opt.logger] 日志对象
    * @return {void}
    */
@@ -36,16 +33,8 @@ class Engine {
     /* istanbul ignore next */
     const baseDir = opt.root || process.cwd();
     const env = opt.env;
-    const nunjucks = opt.nunjucks;
 
-    assert.notEqual(nunjucks, undefined, '必须提供 nunjucks 参数');
     assert.notEqual(env, undefined, '必须提供 env 参数, nunjucks.Environment 的实例');
-
-    opt.helper = Object.assign({
-      isSafeString: function(str) {
-        return str instanceof nunjucks.runtime.SafeString;
-      }
-    }, opt.helper);
 
     this.Resource.configure(Object.assign({
       root: baseDir,
@@ -58,4 +47,4 @@ class Engine {
   }
 }
 
-module.exports = new Engine();
+module.exports = new Pagelet();

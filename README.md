@@ -10,7 +10,7 @@ scrat后端渲染组件化开发模式通过扩展 [nunjucks](http://mozilla.git
 ```js
 const path = require('path');
 const nunjucks = require('nunjucks');
-const engine = require('nujucks-pagelet');
+const pagelet = require('nujucks-pagelet');
 
 const baseDir = path.join(process.cwd(), './test/fixtures/general');
 const env = nunjucks.configure(baseDir, {});
@@ -19,20 +19,17 @@ const env = nunjucks.configure(baseDir, {});
  * 初始化入口
  * @method Engine#register
  * @param {Object} opt 配置对象
- * @param {Object} opt.nunjucks nunjucks对象, 用于扩展
  * @param {Object} opt.env nunjucks.Environment 实例, 用于扩展
  * @param {String|Object|Function} opt.manifest 资源映射表, 可以是文件路径/映射表对象/读取函数
  * @param {String} opt.root 静态文件的根目录
  * @param {Boolean} [opt.cache] 是否缓存资源映射表
- * @param {Object} [opt.helper] 辅助方法, 覆盖helper类的 safe , escape,  SafeString, comboURI 等
  * @param {Object} [opt.logger] 日志对象
  * @return {void}
  */
-engine.register({
+pagelet.register({
   root: baseDir,
   manifest: path.join(baseDir, 'manifest.json'),
   cache: true,
-  nunjucks: nunjucks,
   env: env
 });
 

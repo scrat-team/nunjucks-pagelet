@@ -36,7 +36,7 @@
     "lint": "eslint lib test",
     "test": "npm run lint && npm run test-local",
     "test-local": "TEST_REPORTER=spec NODE_ENV=test ./node_modules/.bin/_mocha --recursive test --bail",
-    "cov": "TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -u exports --recursive test --bail",
+    "cov": "TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive test --bail",
     "ci": "npm run lint && npm run cov",
     "ci-travis": "npm run lint && TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- -u exports --recursive test --bail"
   },
