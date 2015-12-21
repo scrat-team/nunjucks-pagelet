@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const expect = require('expect.js');
 const nunjucks = require('nunjucks');
-const engine = require('../');
+const pagelet = require('../');
 
 module.exports = function(targetDir, opt) {
   const baseDir = path.join(process.cwd(), './test/fixtures/', targetDir);
@@ -28,11 +28,14 @@ module.exports = function(targetDir, opt) {
     jsonStr: JSON.stringify({a: 'b'})
   };
 
-  engine.register(Object.assign({
+  pagelet.configure(Object.assign({
     root: baseDir,
-    manifest: manifestFile,
-    env: env
+    manifest: manifestFile
   }, opt));
+
+  pagelet.tags.forEach((tag) => {
+    env.addExtension(tag.tagName, tag);
+  });
 
   function mountTag(Tags) {
     Tags = Array.prototype.slice.call(arguments);
@@ -43,7 +46,7 @@ module.exports = function(targetDir, opt) {
   }
 
   function mockContext(obj) {
-    class Mock extends engine.Tag {
+    class Mock extends pagelet.Tag {
       constructor() {
         super('mock');
       }
@@ -70,7 +73,7 @@ module.exports = function(targetDir, opt) {
     manifestFile: manifestFile,
     manifestData: manifestData,
     env: env,
-    engine: engine,
+    engine: pagelet,
     locals: locals,
     equal: equal,
     mountTag: mountTag,

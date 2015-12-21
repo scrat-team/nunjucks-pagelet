@@ -19,19 +19,20 @@ const env = nunjucks.configure(baseDir, {});
  * 初始化入口
  * @method Engine#register
  * @param {Object} opt 配置对象
- * @param {Object} opt.env nunjucks.Environment 实例, 用于扩展
  * @param {String|Object|Function} opt.manifest 资源映射表, 可以是文件路径/映射表对象/读取函数
  * @param {String} opt.root 静态文件的根目录
  * @param {Boolean} [opt.cache] 是否缓存资源映射表
  * @param {Object} [opt.logger] 日志对象
  * @return {void}
  */
-pagelet.register({
+pagelet.configure({
   root: baseDir,
   manifest: path.join(baseDir, 'manifest.json'),
-  cache: true,
-  env: env
+  cache: true
 });
+
+// 注册 Tag 到 nunjucks
+pagelet.register(env);
 
 // 渲染
 const locals = {};

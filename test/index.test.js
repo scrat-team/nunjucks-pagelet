@@ -7,30 +7,31 @@ const expect = require('expect.js');
 const util = require('./util');
 
 describe('test/index.test.js', function() {
-  let mm, engine;
+  let mm, pagelet;
 
   before(function() {
     mm = util('general');
-    engine = mm.engine;
+    pagelet = mm.engine;
   });
 
   after(util.restore);
 
   it('should exports', function() {
-    expect(engine.Tag).to.not.be(undefined);
-    expect(engine.Resource).to.not.be(undefined);
-    expect(engine.manifest).to.eql(engine.Resource.manifest);
+    expect(pagelet.Tag).to.not.be(undefined);
+    expect(pagelet.Resource).to.not.be(undefined);
+    expect(pagelet.manifest).to.eql(pagelet.Resource.manifest);
   });
 
   it('should use with nunjucks', function() {
     // 初始化资源
     const baseDir = path.join(process.cwd(), './test/fixtures/general');
     const env = nunjucks.configure(baseDir);
-    engine.register({
+    pagelet.configure({
       root: baseDir,
-      manifest: path.join(baseDir, 'map.json'),
-      env: env
+      manifest: path.join(baseDir, 'map.json')
     });
+
+    pagelet.register(env);
 
     const locals = JSON.parse(fs.readFileSync(path.join(baseDir, 'data.json'), 'utf8'));
     const str = fs.readFileSync(path.join(baseDir, 'expect.html'), 'utf8');
