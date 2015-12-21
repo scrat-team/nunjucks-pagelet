@@ -4,7 +4,7 @@
   "description": "scrat-swig的nunjucks版本, 提供pagelet支持",
   "dependencies": {
     "delegates": "^0.1.0",
-    "nunjucks-tag": "^1.0.0"
+    "nunjucks-tag": "^1.1.0"
   },
   "devDependencies": {
     "autod": "*",
@@ -38,7 +38,7 @@
     "test-local": "TEST_REPORTER=spec NODE_ENV=test ./node_modules/.bin/_mocha --recursive test --bail",
     "cov": "TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive test --bail",
     "ci": "npm run lint && npm run cov",
-    "ci-travis": "npm run lint && TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- -u exports --recursive test --bail"
+    "ci-travis": "npm run lint && TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --recursive test --bail"
   },
   "homepage": "https://github.com/scrat-team/nunjucks-pagelet",
   "repository": {
