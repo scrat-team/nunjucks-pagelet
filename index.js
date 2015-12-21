@@ -1,7 +1,5 @@
 'use strict';
 
-const path = require('path');
-const assert = require('assert');
 const delegate = require('delegates');
 const Tag = require('nunjucks-tag');
 const Resource = require('./lib/Resource');
