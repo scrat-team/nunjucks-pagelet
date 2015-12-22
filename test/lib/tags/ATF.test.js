@@ -22,7 +22,7 @@ describe('test/lib/tags/ATF.test.js', function() {
   it('should call ATF', function() {
     const tpl = '{% html %}before{% ATF %}after{% endhtml %}';
     const html = env.renderString(tpl, {});
-    expect(html).to.equal('<html>beforeafter</html>');
+    expect(html).to.equal('<!DOCTYPE html>\n<html>beforeafter</html>');
     sinon.assert.called(spy);
     spy.reset();
   });

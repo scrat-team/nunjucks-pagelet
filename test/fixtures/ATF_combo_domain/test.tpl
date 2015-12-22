@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 {% html cdn=domain.in %}
   {% head %}
     <meta charset="utf-8"/>

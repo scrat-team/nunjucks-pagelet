@@ -135,13 +135,14 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 
 ## 新增规则
 
-- 对`nunjucks`的自定义标签语法进行了修订:
+- 对 `nunjucks` 的自定义标签语法进行了修订:
   - 属性分隔符增加对空格的支持, 原逗号仍保留支持, 但建议使用空格
   - `data-src="http://"` 这类的属性名, 无需双引号包裹
   - `disabled` 这类的没有赋值的属性, 还是维持官方的实现, 需要双引号包裹, 否则会当做变量
   - 示例:
     - `{% body cdn="asd", data-src="http://", "disabled"" %}{% endbody %}`
     - `{% pagelet $id="asd" class=["a", "b"] style={a: true, b: someVar} %}{% endpagelet %}`
+
 - swig版本传送门: [scrat-swig](https://github.com/scrat-team/scrat-swig), Base on Latest commit 6cdcb1f on 20 Oct .
 
 ## 新增模板标签
@@ -169,6 +170,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 * 闭合：YES
 * 参数：
     * cdn: 指定pagelet加载时所用的域名,可以是字符串字面量,也可以是模板变量
+    * doctype: 声明 doctype , 默认为 html
     * 任何其他参数都将转换为输出的html标签的属性。
 * 示例：
 
@@ -181,6 +183,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
     渲染后的html：
 
     ```html
+    <!DOCTYPE html>
     <html class="abc" data-value="bcd">
       ...
     </html>
@@ -190,7 +193,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 
 * 功能：替代原生的 `<head>` 标签包裹页面head部分，用于实现资源CSS输出占位
 * 闭合：YES
-* 参数：任何参数都将转换为输出的head标签的属性。
+* 参数：任何参数都将转换为输出的 head 标签的属性。
 * 示例：
 
     ```twig
@@ -217,7 +220,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 
 * 功能：替代原生的 `<body>` 标签包裹页面body部分，用于实现资源JS输出占位
 * 闭合：YES
-* 参数：任何参数都将转换为输出的body标签的属性。
+* 参数：任何参数都将转换为输出的 body 标签的属性。
 * 示例：
 
     ```twig
@@ -246,7 +249,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 
 ### script
 
-* 功能：替代原生的 ``script`` 标签，收集页面中散落的script脚本统一放到页面尾部输出。
+* 功能：替代原生的 `<script>` 标签，收集页面中散落的 script 脚本统一放到页面尾部输出。
 * 闭合：YES
 * 参数：无
 * 示例：
@@ -295,12 +298,12 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 
 ### pagelet
 
-* 功能：页面区域划分，用于quickling加载页面
+* 功能：页面区域划分，用于 quickling 加载页面
 * 闭合：YES
-* 注意：pagelet默认会生成一个dom结构，如果希望不生成任何结构，须设置 ``$tag`` 属性值为字符串 ``"none"``
+* 注意：pagelet默认会生成一个dom结构，如果希望不生成任何结构，须设置 `$tag` 属性值为字符串 `"none"`
 * 参数：
     * $id：字符串|模板变量。定义pagelet的id
-    * $tag：字符串|模板变量|"none"。要生成的占位标签的标签名，可以不指定，默认是 ``div``。如果指定为none，框架会输出一个注释来标注pagelet的范围。
+    * $tag：字符串|模板变量|"none"。要生成的占位标签的标签名，可以不指定，默认是 `div`。如果指定为none，框架会输出一个注释来标注pagelet的范围。
     * 任何其他参数都将转换为输出的pagelet占位标签的属性。
 * 示例：
 
@@ -388,7 +391,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 
 ### datalet
 
-* 功能：在pagelet区域内收集模板数据将来在quickling加载时可以传递给前端框架。
+* 功能：在pagelet区域内收集模板数据将来在 quickling 加载时可以传递给前端框架。
 * 闭合：NO
 * 示例：
 
@@ -432,7 +435,7 @@ manifest 文件是通过构建工具生成的, 主要描述了资源的依赖关
 
 ### ATF
 
-* 功能：收集位于`ATF`标签以上的css资源，并内嵌到主文档的head标签中。只会收集使用`require`标签加载的css资源，并不会收集link标签的css资源。用于加快首屏渲染速度的优化。
+* 功能：收集位于 `ATF` 标签以上的css资源，并内嵌到主文档的head标签中。只会收集使用 `require` 标签加载的css资源，并不会收集link标签的css资源。用于加快首屏渲染速度的优化。
 * 闭合：NO
 * 参数：无
 * 示例：

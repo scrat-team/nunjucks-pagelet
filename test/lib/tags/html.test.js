@@ -18,12 +18,17 @@ describe('test/lib/tags/html.test.js', function() {
   it('should render html tag', function() {
     const tpl = '{% html cdn="http://cdn.cn", "data-attr1"=attr1, attr2="a2"%}{{ content }}{% endhtml %}';
     const html = env.renderString(tpl, locals);
-    expect(html).to.equal('<html data-attr1="some attr" attr2="a2">this is content</html>');
+    expect(html).to.equal('<!DOCTYPE html>\n<html data-attr1="some attr" attr2="a2">this is content</html>');
   });
 
   it('should render empty attrs', function() {
     const tpl = '{% html %}{{ content }}{% endhtml %}';
-    mm.equal(tpl, '<html>this is content</html>');
+    mm.equal(tpl, '<!DOCTYPE html>\n<html>this is content</html>');
+  });
+
+  it('should render doctype', function() {
+    const tpl = '{% html doctype="html PUBLIC"%}{{ content }}{% endhtml %}';
+    mm.equal(tpl, '<!DOCTYPE html PUBLIC>\n<html>this is content</html>');
   });
 
   it('should render pagelet json', function() {

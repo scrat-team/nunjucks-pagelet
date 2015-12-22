@@ -18,7 +18,7 @@ describe('test/lib/tags/title.test.js', function() {
 
   it('should set title', function() {
     const tpl = '{% html %}{% title %}{{clz}}-title{% endtitle %}{% endhtml%}';
-    mm.equal(tpl, '<html><title>test-title</title></html>');
+    mm.equal(tpl, '<!DOCTYPE html>\n<html><title>test-title</title></html>');
     sinon.assert.calledWith(spy, 'test-title');
     spy.reset();
   });

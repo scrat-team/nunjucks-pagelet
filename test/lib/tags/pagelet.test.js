@@ -15,31 +15,31 @@ describe('test/lib/tags/pagelet.test.js', function() {
 
   it('should render pagelet tag attribute ', function() {
     tpl = '{% html %}{% pagelet $id="main" %}hello{% endpagelet %}{% endhtml %}';
-    mm.equal(tpl, '<html><div data-pagelet="main">hello</div></html>');
+    mm.equal(tpl, '<!DOCTYPE html>\n<html><div data-pagelet="main">hello</div></html>');
 
     tpl = '{% html %}{% pagelet $id="main" %}hello{% pagelet $id="sub" %}world{% endpagelet %}{% endpagelet %}{% endhtml %}';
-    mm.equal(tpl, '<html><div data-pagelet="main">hello<div data-pagelet="main.sub">world</div></div></html>');
+    mm.equal(tpl, '<!DOCTYPE html>\n<html><div data-pagelet="main">hello<div data-pagelet="main.sub">world</div></div></html>');
 
     tpl = '{% html %}{% pagelet $id=main %}hello{% endpagelet %}{% endhtml %}';
-    expect(env.renderString(tpl, {main: 'main'})).to.equal('<html><div data-pagelet="main">hello</div></html>');
+    expect(env.renderString(tpl, {main: 'main'})).to.equal('<!DOCTYPE html>\n<html><div data-pagelet="main">hello</div></html>');
 
     tpl = '{% html %}{% pagelet $id="main", class="a" %}hello{% endpagelet %}{% endhtml %}';
-    mm.equal(tpl, '<html><div class="a" data-pagelet="main">hello</div></html>');
+    mm.equal(tpl, '<!DOCTYPE html>\n<html><div class="a" data-pagelet="main">hello</div></html>');
 
     tpl = '{% html %}{% pagelet $id=\'main\', class=["a", b, c.e] | join(" ") %}hello{% endpagelet %}{% endhtml %}';
-    expect(env.renderString(tpl, {b: 'b', c: {e: 'c.e'}})).to.equal('<html><div class="a b c.e" data-pagelet="main">hello</div></html>');
+    expect(env.renderString(tpl, {b: 'b', c: {e: 'c.e'}})).to.equal('<!DOCTYPE html>\n<html><div class="a b c.e" data-pagelet="main">hello</div></html>');
 
     tpl = '{% html %}{% pagelet $id="main", $tag="ul", class=\'a\' %}hello{% endpagelet %}{% endhtml %}';
-    mm.equal(tpl, '<html><ul class="a" data-pagelet="main">hello</ul></html>');
+    mm.equal(tpl, '<!DOCTYPE html>\n<html><ul class="a" data-pagelet="main">hello</ul></html>');
 
     tpl = '{% html %}{% pagelet $id="main", $tag="ul", class="a" %}hello{% endpagelet %}{% endhtml %}';
-    mm.equal(tpl, '<html><ul class="a" data-pagelet="main">hello</ul></html>');
+    mm.equal(tpl, '<!DOCTYPE html>\n<html><ul class="a" data-pagelet="main">hello</ul></html>');
 
     tpl = '{% html %}{% pagelet $id="main", $tag="none", class="a" %}hello{% endpagelet %}{% endhtml %}';
-    mm.equal(tpl, '<html><!-- pagelet[main] start -->hello<!-- pagelet[main] end --></html>');
+    mm.equal(tpl, '<!DOCTYPE html>\n<html><!-- pagelet[main] start -->hello<!-- pagelet[main] end --></html>');
 
     tpl = '{% html %}{% pagelet $id="main", $tag=\'none\', class="a" %}hello{% endpagelet %}{% endhtml %}';
-    mm.equal(tpl, '<html><!-- pagelet[main] start -->hello<!-- pagelet[main] end --></html>');
+    mm.equal(tpl, '<!DOCTYPE html>\n<html><!-- pagelet[main] start -->hello<!-- pagelet[main] end --></html>');
   });
 
   it('use pagelet', function() {

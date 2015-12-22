@@ -13,6 +13,6 @@ describe('test/lib/tags/uri.test.js', function() {
 
   it('should render uri tag', function() {
     const tpl = `{% html%}<img data-src="{% uri 'components/nav/nav.js' %}"/><img data-src="{% uri $id='components/nav/nav.js' %}"/>{% endhtml%}`;
-    mm.equal(tpl, '<html><img data-src="c/nav/nav.js"/><img data-src="c/nav/nav.js"/></html>');
+    mm.equal(tpl, '<!DOCTYPE html>\n<html><img data-src="c/nav/nav.js"/><img data-src="c/nav/nav.js"/></html>');
   });
 });
