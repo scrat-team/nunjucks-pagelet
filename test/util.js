@@ -54,7 +54,7 @@ module.exports = function(targetDir, opt) {
         if (typeof obj === 'function') {
           obj(context);
         } else {
-          context.resource = Object.assign({}, context.resource, obj);
+          context.ctx.__resource = Object.assign({}, context.ctx.__resource, obj);
           return this.safe(body());
         }
       }
