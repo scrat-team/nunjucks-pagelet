@@ -27,6 +27,12 @@ describe('test/lib/tags/require.test.js', function() {
     expect(html).to.equal('<!DOCTYPE html>\n<html><h1>this is title</h1>\n<a href="http://scrat.io">scrat</a>\n<span>foo</span></html>');
   });
 
+  it('should isolate scope', function() {
+    const tpl = '{% html %}{% require $id="foo" $scope=true href=href %}{% endhtml %}';
+    const html = env.renderString(tpl, locals);
+    expect(html).to.equal('<!DOCTYPE html>\n<html><h1></h1>\n<a href="http://scrat.io">scrat</a>\n<span></span></html>');
+  });
+
   it('should provide $id attr', function() {
     expect(function() {
       mm.env.renderString('{% require %}', mm.locals);
