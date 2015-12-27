@@ -3,6 +3,7 @@
 const delegate = require('delegates');
 const Tag = require('nunjucks-tag');
 const Resource = require('./lib/Resource');
+const symbol = require('./lib/symbol');
 
 const TagNames = ['body', 'head', 'html', 'pagelet', 'require', 'script', 'uri', 'title', 'datalet', 'ATF'];
 const tags = TagNames.map((tagName) => {
@@ -12,6 +13,7 @@ const tags = TagNames.map((tagName) => {
 
 exports.Tag = Tag;
 exports.Resource = Resource;
+exports.symbol = symbol;
 exports.TagNames = TagNames;
 exports.tags = tags;
 

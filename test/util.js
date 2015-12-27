@@ -5,6 +5,7 @@ const fs = require('fs');
 const expect = require('expect.js');
 const nunjucks = require('nunjucks');
 const pagelet = require('../');
+const symbol = require('../lib/symbol');
 
 module.exports = function(targetDir, opt) {
   const baseDir = path.join(process.cwd(), './test/fixtures/', targetDir);
@@ -54,7 +55,7 @@ module.exports = function(targetDir, opt) {
         if (typeof obj === 'function') {
           obj(context);
         } else {
-          context.ctx.__resource = Object.assign({}, context.ctx.__resource, obj);
+          context.ctx[symbol.RESOURCE] = Object.assign({}, context.ctx[symbol.RESOURCE], obj);
           return this.safe(body());
         }
       }
