@@ -1,4 +1,9 @@
 
+1.4.1 / 2015-12-28
+==================
+
+  * bug: revert symbol due to nunjucks do not copy it
+
 1.4.0 / 2015-12-27
 ==================
 

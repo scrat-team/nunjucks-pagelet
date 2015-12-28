@@ -1,6 +1,6 @@
 {
   "name": "nunjucks-pagelet",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "scrat-swig的nunjucks版本, 提供pagelet支持",
   "dependencies": {
     "delegates": "^0.1.0",
