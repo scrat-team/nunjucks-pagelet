@@ -3,6 +3,7 @@
   "version": "1.4.2",
   "description": "scrat-swig的nunjucks版本, 提供pagelet支持",
   "dependencies": {
+    "cross-env": "^5.0.0",
     "delegates": "^0.1.0",
     "nunjucks-tag": "^1.1.0"
   },
@@ -32,10 +33,10 @@
   "scripts": {
     "lint": "eslint lib test index.js",
     "test": "npm run lint && npm run test-local",
-    "test-local": "TEST_REPORTER=spec NODE_ENV=test ./node_modules/.bin/_mocha --recursive test --bail",
-    "cov": "TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive test --bail",
+    "test-local": "cross-env TEST_REPORTER=spec NODE_ENV=test ./node_modules/.bin/_mocha --recursive test --bail",
+    "cov": "cross-env TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive test --bail",
     "ci": "npm run lint && npm run cov",
-    "ci-travis": "npm run lint && TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --recursive test --bail"
+    "ci-travis": "npm run lint && cross-env TEST_REPORTER=spec NODE_ENV=test node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --recursive test --bail"
   },
   "homepage": "https://github.com/scrat-team/nunjucks-pagelet",
   "repository": {
