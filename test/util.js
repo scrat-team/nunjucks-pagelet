@@ -2,14 +2,14 @@
 
 const path = require('path');
 const fs = require('fs');
-const expect = require('expect.js');
+const assert = require('assert');
 const nunjucks = require('nunjucks');
 const pagelet = require('../');
 const symbol = require('../lib/symbol');
 
 module.exports = function(targetDir, opt) {
   const baseDir = path.join(process.cwd(), './test/fixtures/', targetDir);
-  const env = nunjucks.configure(baseDir, {autoescape: true});
+  const env = nunjucks.configure(baseDir, { autoescape: true });
   const manifestFile = path.join(baseDir, 'map.json');
   const manifestData = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
   const locals = {
@@ -18,30 +18,30 @@ module.exports = function(targetDir, opt) {
     content: 'this is content',
     bool: true,
     deep: {
-      foo: 'foo'
+      foo: 'foo',
     },
     clz: 'test',
     foo: {
-      bar: 'bar'
+      bar: 'bar',
     },
     href: 'http://scrat.io',
     html: '<img src=>',
-    jsonStr: JSON.stringify({a: 'b'})
+    jsonStr: JSON.stringify({ a: 'b' }),
   };
 
   pagelet.configure(Object.assign({
     root: baseDir,
-    manifest: manifestFile
+    manifest: manifestFile,
   }, opt));
 
-  pagelet.tags.forEach((tag) => {
+  pagelet.tags.forEach(tag => {
     env.addExtension(tag.tagName, tag);
   });
 
   function mountTag(Tags) {
     Tags = Array.prototype.slice.call(arguments);
     Tags.forEach(Tag => {
-      let tag = new Tag();
+      const tag = new Tag();
       env.addExtension(tag.tagName, tag);
     });
   }
@@ -66,19 +66,19 @@ module.exports = function(targetDir, opt) {
 
   function equal(tpl, html, data) {
     // 去掉每行前面的空格
-    expect(env.renderString(tpl, data || locals).replace(/^\s*/gm, '')).to.equal(html.replace(/^\s*/gm, ''));
+    assert(env.renderString(tpl, data || locals).replace(/^\s*/gm, '') === html.replace(/^\s*/gm, ''));
   }
 
   return {
-    baseDir: baseDir,
-    manifestFile: manifestFile,
-    manifestData: manifestData,
-    env: env,
+    baseDir,
+    manifestFile,
+    manifestData,
+    env,
     engine: pagelet,
-    locals: locals,
-    equal: equal,
-    mountTag: mountTag,
-    mockContext: mockContext
+    locals,
+    equal,
+    mountTag,
+    mockContext,
   };
 };
 

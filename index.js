@@ -5,9 +5,9 @@ const Tag = require('nunjucks-tag');
 const Resource = require('./lib/Resource');
 const symbol = require('./lib/symbol');
 
-const TagNames = ['body', 'head', 'html', 'pagelet', 'require', 'script', 'uri', 'title', 'datalet', 'ATF'];
-const tags = TagNames.map((tagName) => {
-  let Tag = require('./lib/tags/' + tagName);
+const TagNames = [ 'body', 'head', 'html', 'pagelet', 'require', 'script', 'uri', 'title', 'datalet', 'ATF' ];
+const tags = TagNames.map(tagName => {
+  const Tag = require('./lib/tags/' + tagName);
   return new Tag();
 });
 
@@ -18,7 +18,7 @@ exports.TagNames = TagNames;
 exports.tags = tags;
 
 exports.register = function(env) {
-  this.tags.forEach((tag) => {
+  this.tags.forEach(tag => {
     env.addExtension(tag.tagName, tag);
   });
 };

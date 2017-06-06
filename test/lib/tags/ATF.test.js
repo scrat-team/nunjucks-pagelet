@@ -1,13 +1,17 @@
 'use strict';
 
-const expect = require('expect.js');
+const assert = require('assert');
 const path = require('path');
 const fs = require('fs');
 const sinon = require('sinon');
 const util = require('../../util');
 
 describe('test/lib/tags/ATF.test.js', function() {
-  let mm, env, engine, spy, locals;
+  let mm,
+    env,
+    engine,
+    spy,
+    locals;
 
   before(function() {
     mm = util('ATF');
@@ -22,7 +26,7 @@ describe('test/lib/tags/ATF.test.js', function() {
   it('should call ATF', function() {
     const tpl = '{% html %}before{% ATF %}after{% endhtml %}';
     const html = env.renderString(tpl, {});
-    expect(html).to.equal('<!DOCTYPE html>\n<html>beforeafter</html>');
+    assert(html === '<!DOCTYPE html>\n<html>beforeafter</html>');
     sinon.assert.called(spy);
     spy.reset();
   });
@@ -31,7 +35,7 @@ describe('test/lib/tags/ATF.test.js', function() {
     const str = fs.readFileSync(path.join(mm.baseDir, 'expect.html'), 'utf8');
     const html = env.render('test.tpl', locals);
     // 去掉每行前面的空格
-    expect(html.replace(/^\s*/gm, '')).to.equal(str.replace(/^\s*/gm, ''));
+    assert(html.replace(/^\s*/gm, '') === str.replace(/^\s*/gm, ''));
   });
 
   it('should render ATF combo content', function() {
@@ -42,7 +46,7 @@ describe('test/lib/tags/ATF.test.js', function() {
     const str = fs.readFileSync(path.join(mm.baseDir, 'expect.html'), 'utf8');
     const html = env.render('test.tpl', locals);
     // 去掉每行前面的空格
-    expect(html.replace(/^\s*/gm, '')).to.equal(str.replace(/^\s*/gm, ''));
+    assert(html.replace(/^\s*/gm, '') === str.replace(/^\s*/gm, ''));
   });
 
   it('should render ATF combo+domain content', function() {
@@ -53,6 +57,6 @@ describe('test/lib/tags/ATF.test.js', function() {
     const str = fs.readFileSync(path.join(mm.baseDir, 'expect.html'), 'utf8');
     const html = env.render('test.tpl', locals);
     // 去掉每行前面的空格
-    expect(html.replace(/^\s*/gm, '')).to.equal(str.replace(/^\s*/gm, ''));
+    assert(html.replace(/^\s*/gm, '') === str.replace(/^\s*/gm, ''));
   });
 });

@@ -13,6 +13,7 @@ run/
 test/fixtures/antx/conf/
 *-tair.xml
 assembly
+package-lock.json
 test/**/proxy_class_map.js
 test/fixtures/proxy_tpl/**/proxy*
 test/fixtures/proxy_tpl/**/.gitignore
