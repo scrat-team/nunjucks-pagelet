@@ -9,7 +9,7 @@ const symbol = require('../lib/symbol');
 
 module.exports = function(targetDir, opt) {
   const baseDir = path.join(process.cwd(), './test/fixtures/', targetDir);
-  const env = nunjucks.configure(baseDir, {autoescape: true});
+  const env = nunjucks.configure(baseDir, { autoescape: true });
   const manifestFile = path.join(baseDir, 'map.json');
   const manifestData = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
   const locals = {
@@ -26,7 +26,7 @@ module.exports = function(targetDir, opt) {
     },
     href: 'http://scrat.io',
     html: '<img src=>',
-    jsonStr: JSON.stringify({a: 'b'}),
+    jsonStr: JSON.stringify({ a: 'b' }),
   };
 
   pagelet.configure(Object.assign({
@@ -34,14 +34,14 @@ module.exports = function(targetDir, opt) {
     manifest: manifestFile,
   }, opt));
 
-  pagelet.tags.forEach((tag) => {
+  pagelet.tags.forEach(tag => {
     env.addExtension(tag.tagName, tag);
   });
 
   function mountTag(Tags) {
     Tags = Array.prototype.slice.call(arguments);
     Tags.forEach(Tag => {
-      let tag = new Tag();
+      const tag = new Tag();
       env.addExtension(tag.tagName, tag);
     });
   }
@@ -70,15 +70,15 @@ module.exports = function(targetDir, opt) {
   }
 
   return {
-    baseDir: baseDir,
-    manifestFile: manifestFile,
-    manifestData: manifestData,
-    env: env,
+    baseDir,
+    manifestFile,
+    manifestData,
+    env,
     engine: pagelet,
-    locals: locals,
-    equal: equal,
-    mountTag: mountTag,
-    mockContext: mockContext,
+    locals,
+    equal,
+    mountTag,
+    mockContext,
   };
 };
 

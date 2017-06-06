@@ -7,7 +7,11 @@ const sinon = require('sinon');
 const util = require('../../util');
 
 describe('test/lib/tags/ATF.test.js', function() {
-  let mm, env, engine, spy, locals;
+  let mm,
+    env,
+    engine,
+    spy,
+    locals;
 
   before(function() {
     mm = util('ATF');

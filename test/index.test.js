@@ -7,7 +7,8 @@ const assert = require('assert');
 const util = require('./util');
 
 describe('test/index.test.js', function() {
-  let mm, pagelet;
+  let mm,
+    pagelet;
 
   before(function() {
     mm = util('general');

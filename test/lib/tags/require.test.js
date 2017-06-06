@@ -4,9 +4,10 @@ const assert = require('assert');
 const util = require('../../util');
 
 describe('test/lib/tags/require.test.js', function() {
-  let mm, env;
+  let mm,
+    env;
 
-  const locals = {title: 'this is title', href: 'http://scrat.io', deep: {foo: 'foo'}, override: {foo: 'override'}};
+  const locals = { title: 'this is title', href: 'http://scrat.io', deep: { foo: 'foo' }, override: { foo: 'override' } };
 
   before(function() {
     mm = util('general');

@@ -9,7 +9,10 @@ const util = require('../util');
 const spy = sinon.spy(fs, 'readFileSync');
 
 describe('test/Resource.test.js', function() {
-  let mm, engine, baseDir, Resource;
+  let mm,
+    engine,
+    baseDir,
+    Resource;
 
   before(function() {
     mm = util('general');
@@ -36,21 +39,21 @@ describe('test/Resource.test.js', function() {
   it('should use manifest object', function() {
     Resource.configure({
       cache: true,
-      manifest: {res: {}},
+      manifest: { res: {} },
       root: baseDir,
     });
-    assert.deepEqual(Resource.manifest, {res: {}});
+    assert.deepEqual(Resource.manifest, { res: {} });
   });
 
   it('should use manifest function', function() {
     Resource.configure({
       cache: true,
-      manifest: function() {
-        return {res: {}, combo: true};
+      manifest() {
+        return { res: {}, combo: true };
       },
       root: baseDir,
     });
-    assert.deepEqual(Resource.manifest, {res: {}, combo: true});
+    assert.deepEqual(Resource.manifest, { res: {}, combo: true });
   });
 
   it('should cache manifest', function() {
