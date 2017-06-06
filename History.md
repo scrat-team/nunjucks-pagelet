@@ -1,4 +1,9 @@
 
+2.0.0 / 2017-06-06
+==================
+
+  * feat: folder use view component  and test use egg-bin (#17)
+
 1.4.2 / 2015-12-28
 ==================
 
