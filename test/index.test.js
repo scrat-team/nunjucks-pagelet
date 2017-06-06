@@ -28,7 +28,7 @@ describe('test/index.test.js', function() {
     const env = nunjucks.configure(baseDir);
     pagelet.configure({
       root: baseDir,
-      manifest: path.join(baseDir, 'map.json')
+      manifest: path.join(baseDir, 'map.json'),
     });
 
     pagelet.register(env);

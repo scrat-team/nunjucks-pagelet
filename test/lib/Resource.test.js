@@ -28,7 +28,7 @@ describe('test/Resource.test.js', function() {
     Resource.configure({
       cache: true,
       manifest: mm.manifestFile,
-      root: baseDir
+      root: baseDir,
     });
     assert.deepEqual(Resource.manifest, mm.manifestData);
   });
@@ -37,7 +37,7 @@ describe('test/Resource.test.js', function() {
     Resource.configure({
       cache: true,
       manifest: {res: {}},
-      root: baseDir
+      root: baseDir,
     });
     assert.deepEqual(Resource.manifest, {res: {}});
   });
@@ -48,7 +48,7 @@ describe('test/Resource.test.js', function() {
       manifest: function() {
         return {res: {}, combo: true};
       },
-      root: baseDir
+      root: baseDir,
     });
     assert.deepEqual(Resource.manifest, {res: {}, combo: true});
   });
@@ -57,7 +57,7 @@ describe('test/Resource.test.js', function() {
     Resource.configure({
       cache: true,
       manifest: mm.manifestFile,
-      root: baseDir
+      root: baseDir,
     });
     Resource.manifest;
     Resource.manifest;
@@ -68,7 +68,7 @@ describe('test/Resource.test.js', function() {
   it('should not cache manifest', function() {
     Resource.configure({
       manifest: mm.manifestFile,
-      root: baseDir
+      root: baseDir,
     });
     Resource.manifest;
     Resource.manifest;

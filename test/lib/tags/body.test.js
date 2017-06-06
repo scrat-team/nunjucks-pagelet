@@ -8,7 +8,7 @@ describe('test/lib/tags/body.test.js', function() {
   before(function() {
     mm = util('general');
     mm.mockContext({
-      'JS_HOOK': '<!--PAGELET_JS_HOOK-->'
+      'JS_HOOK': '<!--PAGELET_JS_HOOK-->',
     });
   });
 

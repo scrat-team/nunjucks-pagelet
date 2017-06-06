@@ -18,20 +18,20 @@ module.exports = function(targetDir, opt) {
     content: 'this is content',
     bool: true,
     deep: {
-      foo: 'foo'
+      foo: 'foo',
     },
     clz: 'test',
     foo: {
-      bar: 'bar'
+      bar: 'bar',
     },
     href: 'http://scrat.io',
     html: '<img src=>',
-    jsonStr: JSON.stringify({a: 'b'})
+    jsonStr: JSON.stringify({a: 'b'}),
   };
 
   pagelet.configure(Object.assign({
     root: baseDir,
-    manifest: manifestFile
+    manifest: manifestFile,
   }, opt));
 
   pagelet.tags.forEach((tag) => {
@@ -78,7 +78,7 @@ module.exports = function(targetDir, opt) {
     locals: locals,
     equal: equal,
     mountTag: mountTag,
-    mockContext: mockContext
+    mockContext: mockContext,
   };
 };
 

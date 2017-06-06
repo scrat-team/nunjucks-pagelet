@@ -8,7 +8,7 @@ describe('test/lib/tags/head.test.js', function() {
   before(function() {
     mm = util('general');
     mm.mockContext({
-      'CSS_HOOK': '<!--PAGELET_CSS_HOOK-->'
+      'CSS_HOOK': '<!--PAGELET_CSS_HOOK-->',
     });
   });
 
