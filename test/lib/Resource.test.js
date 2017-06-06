@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('expect.js');
+const assert = require('assert');
 const fs = require('fs');
 const sinon = require('sinon');
 
@@ -30,7 +30,7 @@ describe('test/Resource.test.js', function() {
       manifest: mm.manifestFile,
       root: baseDir
     });
-    expect(Resource.manifest).to.eql(mm.manifestData);
+    assert.deepEqual(Resource.manifest, mm.manifestData);
   });
 
   it('should use manifest object', function() {
@@ -39,7 +39,7 @@ describe('test/Resource.test.js', function() {
       manifest: {res: {}},
       root: baseDir
     });
-    expect(Resource.manifest).to.eql({res: {}});
+    assert.deepEqual(Resource.manifest, {res: {}});
   });
 
   it('should use manifest function', function() {
@@ -50,7 +50,7 @@ describe('test/Resource.test.js', function() {
       },
       root: baseDir
     });
-    expect(Resource.manifest).to.eql({res: {}, combo: true});
+    assert.deepEqual(Resource.manifest, {res: {}, combo: true});
   });
 
   it('should cache manifest', function() {
@@ -62,7 +62,7 @@ describe('test/Resource.test.js', function() {
     Resource.manifest;
     Resource.manifest;
     Resource.manifest;
-    expect(spy.callCount).to.be(1);
+    assert(spy.callCount === 1);
   });
 
   it('should not cache manifest', function() {
@@ -72,6 +72,6 @@ describe('test/Resource.test.js', function() {
     });
     Resource.manifest;
     Resource.manifest;
-    expect(spy.callCount).to.be(2);
+    assert(spy.callCount === 2);
   });
 });

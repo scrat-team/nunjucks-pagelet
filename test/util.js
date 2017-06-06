@@ -2,7 +2,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const expect = require('expect.js');
+const assert = require('assert');
 const nunjucks = require('nunjucks');
 const pagelet = require('../');
 const symbol = require('../lib/symbol');
@@ -66,7 +66,7 @@ module.exports = function(targetDir, opt) {
 
   function equal(tpl, html, data) {
     // 去掉每行前面的空格
-    expect(env.renderString(tpl, data || locals).replace(/^\s*/gm, '')).to.equal(html.replace(/^\s*/gm, ''));
+    assert(env.renderString(tpl, data || locals).replace(/^\s*/gm, '') === html.replace(/^\s*/gm, ''));
   }
 
   return {

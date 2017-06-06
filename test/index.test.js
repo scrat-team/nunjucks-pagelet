@@ -3,7 +3,7 @@
 const nunjucks = require('nunjucks');
 const path = require('path');
 const fs = require('fs');
-const expect = require('expect.js');
+const assert = require('assert');
 const util = require('./util');
 
 describe('test/index.test.js', function() {
@@ -17,9 +17,9 @@ describe('test/index.test.js', function() {
   after(util.restore);
 
   it('should exports', function() {
-    expect(pagelet.Tag).to.not.be(undefined);
-    expect(pagelet.Resource).to.not.be(undefined);
-    expect(pagelet.manifest).to.eql(pagelet.Resource.manifest);
+    assert(pagelet.Tag !== undefined);
+    assert(pagelet.Resource !== undefined);
+    assert.deepEqual(pagelet.manifest, pagelet.Resource.manifest);
   });
 
   it('should use with nunjucks', function() {
@@ -37,6 +37,6 @@ describe('test/index.test.js', function() {
     const str = fs.readFileSync(path.join(baseDir, 'expect.html'), 'utf8');
     const html = env.render('test.tpl', locals);
     // 去掉每行前面的空格
-    expect(html.replace(/^\s*/gm, '')).to.equal(str.replace(/^\s*/gm, ''));
+    assert(html.replace(/^\s*/gm, '') === str.replace(/^\s*/gm, ''));
   });
 });

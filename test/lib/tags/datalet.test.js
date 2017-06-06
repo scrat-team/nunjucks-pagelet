@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('expect.js');
+const assert = require('assert');
 const sinon = require('sinon');
 const util = require('../../util');
 
@@ -19,7 +19,7 @@ describe('test/lib/tags/datalet.test.js', function() {
   it('should exec datalet', function() {
     const tpl = '{% html %}{% datalet test="a", test2=test2%}{% endhtml %}';
     const html = env.renderString(tpl, {test2: 'test222', _pagelets: 'main'});
-    expect(JSON.parse(html).data).to.eql({test: 'a', test2: 'test222'});
+    assert.deepEqual(JSON.parse(html).data, {test: 'a', test2: 'test222'});
     sinon.assert.calledWith(spy, {test: 'a', test2: 'test222'});
     spy.reset();
   });

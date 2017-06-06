@@ -1,6 +1,6 @@
 'use strict';
 
-const expect = require('expect.js');
+const assert = require('assert');
 const util = require('../../util');
 
 describe('test/lib/tags/html.test.js', function() {
@@ -18,7 +18,7 @@ describe('test/lib/tags/html.test.js', function() {
   it('should render html tag', function() {
     const tpl = '{% html cdn="http://cdn.cn", "data-attr1"=attr1, attr2="a2"%}{{ content }}{% endhtml %}';
     const html = env.renderString(tpl, locals);
-    expect(html).to.equal('<!DOCTYPE html>\n<html data-attr1="some attr" attr2="a2">this is content</html>');
+    assert(html === '<!DOCTYPE html>\n<html data-attr1="some attr" attr2="a2">this is content</html>');
   });
 
   it('should render empty attrs', function() {
@@ -35,6 +35,7 @@ describe('test/lib/tags/html.test.js', function() {
     const tpl = '{% html "data-attr1"=attr1, attr2="a2"%}{{ content }}{% endhtml %}';
     const html = env.renderString(tpl, {_pagelets: 'main', attr1: 'some attr', content: 'this is content'});
     const json = JSON.parse(html);
-    expect(json).have.keys('html', 'data', 'js', 'css', 'title', 'script');
+    const keys = Object.keys(json);
+    assert(['html', 'data', 'js', 'css', 'title', 'script'].every(key => keys.includes(key)));
   });
 });
