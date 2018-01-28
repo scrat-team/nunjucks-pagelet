@@ -13,6 +13,7 @@ const tags = TagNames.map(tagName => {
 
 exports.Tag = Tag;
 exports.Resource = Resource;
+exports.setServiceWorkerRegistrationJS = Resource.setServiceWorkerRegistrationJS;
 exports.symbol = symbol;
 exports.TagNames = TagNames;
 exports.tags = tags;
