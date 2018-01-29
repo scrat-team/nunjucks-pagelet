@@ -1,4 +1,10 @@
 
+2.1.0-pwa / 2018-01-29
+==================
+
+  * feat: support PWA
+  * fix: getComboPattern()兼容comboPattern是绝对地址的情况
+
 2.0.0 / 2017-06-06
 ==================
 
