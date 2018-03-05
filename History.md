@@ -1,4 +1,9 @@
 
+2.1.0 / 2018-03-05
+==================
+
+  * feat: support service worker
+
 2.1.0-pwa / 2018-01-29
 ==================
 
@@ -24,12 +29,12 @@
 ==================
 
   * feat: support isolate-scope
-  * feat: __resource -> symbol
+  * feat: `__resource -> symbol`
 
 1.3.0 / 2015-12-24
 ==================
 
-  * feat: move resource to context.ctx.__resource
+  * feat: move resource to `context.ctx.__resource`
 
 1.2.1 / 2015-12-22
 ==================
